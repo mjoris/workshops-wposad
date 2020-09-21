@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>WPoSaD – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <style>
+        .reveal .slides {
+            font-size: 70%;
+        }
+        code {
+            background: rgba(255,255,255,0.3);
+            font-size: 0.55em;
+        }
+        .has-light-background code {
+            background: rgba(0,0,255,0.2);
+        }
+        code.hljs {
+            font-size: 100%;
+        }
+        :not(.current-fragment).hide-when-not-current {
+            display: none;
+        }
+        .slide-background-content {
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+        <section data-background="#4d7e65" >
+            <h3>Web Programming on Servers and Devices <small>[OGI03v]</small></h3>
+            <h1>00. Cursusintro</h1>
+        </section>
+
+
+
+
+            <section data-markdown>
+                <script type="text/template">
+                    ## Web Programming on Servers and Devices [OGI03v]
+                    *  Intro Docker, PHP en Javascript/node.js voor studenten met een ELO- of INFRA-profiel
+
+                    *  Gevolgd door individueel projectwerk dat dichter aanleunt bij het profiel
+                       * *hetzij* webtoepassing op embedded webserver
+                       * *hetzij* webtoepassing in Docker met systeemconfig
+
+                    *  6 s.p.
+                </script>
+            </section>
+            <section>
+                <h2>Docenten WPoSaD</h2>
+
+                <figure style="float: left;margin: 0 6.5em;">
+                    <img src="assets/00/lecturer_pieter.png" alt="" width="200">
+                    <figcaption>P. Van Peteghem</figcaption>
+                </figure>
+
+                <figure style="float: left;">
+                    <img src="assets/00/lecturer_joris.jpg" alt="" width="200">
+                    <figcaption>J. Maervoet</figcaption>
+                </figure>
+
+            </section>
+            <section data-markdown data-background="https://pbs.twimg.com/media/DJhGhFFXcAAkeFy.jpg">
+                <script type="text/template">
+                    ## Activiteiten WPoSaD (14 lesweken)
+                    * Week 1 t.e.m. 7: **online** workshops (1,5u / week)
+                    * Week 1 t.e.m. 7: labo's **op de campus** (3u / week)
+                       * telkens Toledo-toets over de laatste workshop
+                       * controle/uploaden aan het einde van het labo en tegen volgend labo
+                       * regels i.v.m. fraude van toepassing
+
+                    * Week 8 t.e.m. 14
+                       * individueel projectwerk met begeleiding tijdens de co-workingsessies (**online**)
+
+                </script>
+
+            </section>
+            <section data-markdown data-background="#4d7e65">
+                <script type="text/template">
+                    ## Evaluatie WPoSaD
+                    * korte tests aan het begin van elke labosessie (20%)
+                    * permanente evaluatie tijdens de begeleide labosessies (30%)
+                    * project met mondelinge verdediging (50%)
+
+                    !! minstens 8/20 op laatste onderdeel !!
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Weekplanning WPoSaD
+                    1. Intro & Docker
+                    2. PHP basissyntax
+                    3. PHP en de webserver: intro HTTP, formulieren, cookies, sessies, authenticatie
+                    4. PHP en databanken
+                    5. Javascript basissyntax en manipulatie DOM
+                    6. node.js/express deel 1
+                    7. node.js/express deel 2 + intro project
+
+                    !!! Enkel week 1 en 2 volg je de workshops *live*; daarna zullen ze op voorhand opgenomen zijn
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Software WPoSaD
+                    * Docker Desktop (installeer tijdig !)
+                    * git
+                    * een Web-specifieke IDE
+                       * WebStorm (licentie voor odisee-studs), Visual Code,  &hellip;
+                       * Een teksteditor met (*)
+                            * Syntax Highlighting
+                            * Autocompletion
+                            * PHPDoc Integration
+                            * On-the-fly syntax check
+
+                    (*) [Waarom?](https://www.codelord.net/2010/02/16/stop-coding-in-the-middle-ages/)
+                </script>
+            </section>
+            <section>
+                <h2>Over deze interactieve slides</h2>
+                <ul>
+                    <li>Gecodeerd in <a href="https://revealjs.com/">reveal.js</a></li>
+                    <li>Werkende PHP-codefragmenten indien gestart met Docker</li>
+                    <li>Installatie-instructies: <a href="https://github.com/mjoris/workshops-wposad">github.com/mjoris/workshops-wposad</a></li>
+                    <li>Update regelmatig!</li>
+                </ul>
+            </section>
+
+
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+
+</body>
+</html>
