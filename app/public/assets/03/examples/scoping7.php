@@ -4,7 +4,7 @@
 
 	const HOST = 'http://www.myhost.com/';
 
-	function absUrl($relUrl) {
+	function absUrl(string $relUrl) {
 		return HOST . $relUrl;
 	}
 

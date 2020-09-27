@@ -8,6 +8,6 @@
 
     $date = DateTime::createFromFormat('j-M-Y', '28-Sep-2020'); // static method call
     $duration = $date->diff($myDateOfBirth);
-    echo ($duration->days);
+    echo ($duration->days); // accessing a property
 
 

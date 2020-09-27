@@ -1753,7 +1753,7 @@ zero, empty or n/a
 
     $host = 'http://www.myhost.com/';
 
-    $absUrl = function ($relUrl) use ($host) {
+    $absUrl = function (string $relUrl) use ($host) {
         return $host . $relUrl;
     };
 
@@ -1774,7 +1774,7 @@ zero, empty or n/a
 
     define('HOST', 'http://www.myhost.com/');
 
-    function absUrl($relUrl) {
+    function absUrl(string $relUrl) {
         return HOST . $relUrl;
     }
 
@@ -1796,7 +1796,7 @@ zero, empty or n/a
 
     const HOST = 'http://www.myhost.com/';
 
-    function absUrl($relUrl) {
+    function absUrl(string $relUrl) {
         return HOST . $relUrl;
     }
 
@@ -1863,7 +1863,7 @@ zero, empty or n/a
 
     $date = DateTime::createFromFormat('j-M-Y', '28-Sep-2020'); // static method call
     $duration = $date-&gt;diff($myDateOfBirth);
-    echo ($duration-&gt;days);</code></pre>
+    echo ($duration-&gt;days); // accessing a property</code></pre>
 
                 <ul style="width: 100%">
                     <li>PHP history: <strong>old</strong> PHP modules are <strong>functional</strong>; <strong>more recent</strong> modules are <strong>object oriented</strong></li>
@@ -1906,10 +1906,10 @@ display_errors = On</code></pre></div>
             </section>
 
             <section>
-                <h2>Basic mechanisms</h2>
-                <ul>
+                <h2>Basic mechanisms (1)</h2>
+                <ul style="font-size: 90%;">
                     <li>
-                        Errors
+                        <em>Plain</em> PHP errors
                         <ul>
                             <li>
                                 Different levels of severity: <code>E_ERROR</code>, <code>E_NOTICE</code>, <code>E_WARNING</code>, &hellip;
@@ -1926,11 +1926,12 @@ display_errors = On</code></pre></div>
                         Exceptions
                         <ul>
                             <li>
-                                When an Exception is thrown and not caught, the script is halted.
+                                When an Exception is thrown and not caught (with <code>try</code> and <code>catch</code>), the script is halted.
                             </li>
                             <li>
                                 Older functions and frameworks don't work with Exceptions (they just return <code>true</code> or <code>false</code> or something else )
                             </li>
+                            <li>Exception is class and <a href="https://www.php.net/manual/en/class.exception.php#122324">some more specific exceptions inherit from Exception</a></li>
                             <li>
                                 With <a href="http://php.net/manual/en/class.errorexception.php">ErrorException</a> you can auto-convert errors into exceptions
                             </li>
@@ -1941,26 +1942,49 @@ display_errors = On</code></pre></div>
             </section>
 
             <section>
-                <h2>Suppress errors with <code>@</code></h2>
+                <h2>Basic mechanisms (2)</h2>
+                <ul style="font-size: 90%;">
+                    <li>
+                        Errors (as in: instances of the class <a href="https://www.php.net/manual/en/class.error.php"><code>Error</code></a>)
+                        <ul>
+                            <li>
+                                When an Error is thrown and not caught (with <code>try</code> and <code>catch</code>), the script is halted.
+                            </li>
+                            <li>
+                                However, Error does not inherit from Exception
+                            </li>
+                            <li>
+                                Errors are meant to be critical (e.g. <code>TypeError</code>), and are in practice less often intercepted with <code>try</code> / <code>catch</code>
+                            </li>
+                            <li>
+                                Errors are only generated from more recent functions and frameworks
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </section>
+
+            <section>
+                <h2>Suppress plain errors with @</h2>
                 <ul>
                     <li>
                         It's possible, but it's not recommended as it even disables reporting of critical errors
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/errors1.php">&lt;?php
 
-	function divide($numerator, $denominator) {
-		return $numerator / $denominator;
-	}
+    function divide($numerator, $denominator) {
+        return $numerator / $denominator;
+    }
 
-	echo divide(1, 2) . PHP_EOL;	// 0.5
-	echo divide(1, 0) . PHP_EOL;	// "Warning: Division by zero" INF
-	echo @divide(1, 0) . PHP_EOL;	// INF
-	echo divide(1, 2) . PHP_EOL;	// 0.5</code></pre>
+    echo divide(1, 2) . PHP_EOL;	// 0.5
+    echo divide(1, 0) . PHP_EOL;	// "Warning: Division by zero" INF
+    echo @divide(1, 0) . PHP_EOL;	// INF
+    echo divide(1, 2) . PHP_EOL;	// 0.5</code></pre>
                     </li>
                     <li style="margin-top: 1em">
-                        Later on, we'll learn how to work with <code>Exception</code>
+                        Course convention: never use <code>@</code> unless you have no other option
                     </li>
                 </ul>
-                <footer>Note: before PHP 7, division by zero did not return INF besides the warning</footer>
             </section>
 
             <section>
@@ -2003,8 +2027,8 @@ array(3) {
                     <li style="margin-top: 1em">
                         Real debugging is possible with
                         <ul>
-                            <li>Built-in IDE debugger<br /><em>(eg. Zend Studio/PHPStorm have one, Aptana had one)</em></li>
-                            <li>External debugger, linked to IDE<br /><em>(eg. XDebug + Aptana/PHPStorm/Netbeans)</em></li>
+                            <li>Built-in IDE debugger</li>
+                            <li><a href="https://xdebug.org/">Xdebug</a> is a PHP extension which can be linked to your IDE</li>
                         </ul>
                     </li>
                 </ul>
@@ -2020,18 +2044,18 @@ array(3) {
 
             <section>
                 <h2>CLI Arguments</h2>
-                <ul>
+                <ul style="width: 100%">
                     <li>
                         The CLI allows arguments being passed in
                     </li>
                     <li>
                         PHP automatically populates two vars: <code>$argc</code> and <code>$argv</code>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/cli-args1.php">&lt;?php
-	echo 'Number of arguments ' . $argc . PHP_EOL;
-	foreach ($argv as $key =&gt; $value) {
-		echo 'Argument #' . $key . ' : ' . $value . PHP_EOL;
-	}</code></pre>
-                        <pre class="bigger"><code class="hljs php">bramus$ php cli-args1.php foo bar baz
+    echo 'Number of arguments ' . $argc . PHP_EOL;
+    foreach ($argv as $key =&gt; $value) {
+        echo 'Argument #' . $key . ' : ' . $value . PHP_EOL;
+    }</code></pre>
+                        <pre class="bigger"><code class="hljs bash">$ php cli-args1.php foo bar baz
 Number of arguments 4
 Argument #0 : args1.php
 Argument #1 : foo
@@ -2048,16 +2072,16 @@ Argument #3 : baz</code></pre>
                     <li>
                         Check a file for syntax errors with <code>php -l faulty.php</code>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/faulty.php">&lt;?php
-	echo $foo;
-	for ($x = 0; $x &lt; 5; x++) {
-		echo $x;
-	}</code></pre>
+    echo $foo;
+    for ($x = 0; $x &lt; 5; x++) {
+        echo $x;
+    }</code></pre>
                     </li>
                     <li>
                         PHP will tell you what went wrong and where
-                        <pre class="bigger"><code class="hljs php">bramus$ php -l faulty.php
+                        <pre class="bigger"><code class="hljs bash">$ php -l faulty.php
 
-Parse error: parse error, expecting `')'' in faulty.php on line 4
+Parse error: syntax error, unexpected '++' (T_INC), expecting ')' in faulty.php on line 7
 Errors parsing faulty.php</code></pre>
                     </li>
                     <li>Handy if you link this to a precommit hook in Git to prevent you from committing faulty code</li>
@@ -2069,20 +2093,19 @@ Errors parsing faulty.php</code></pre>
                 <ul>
                     <li>
                         Check your PHP config by running <code>php -i</code>
-                        <pre class="bigger"><code class="hljs php">mjoris$ php -i
+                        <pre class="bigger"><code class="hljs php">$ php -i
 phpinfo()
-PHP Version => 7.2.11
+PHP Version => 7.4.10
 
-System => Windows NT SIOUXSIE 10.0 build 17134 (Windows 10) AMD64
-Build Date => Oct 10 2018 01:57:32
-Compiler => MSVC15 (Visual C++ 2017)
-Architecture => x64
-...</code></pre>
+System => Linux 907dbd23dd78 4.19.76-linuxkit #1 SMP Thu Oct 17 19:31:58 UTC 2019 x86_64
+Build Date => Sep 10 2020 13:49:31
+Configure Command =>  './configure'  '--build=x86_64-linux-gnu'
+&hellip;</code></pre>
                     </li>
                     <li style="margin-top: 1em;">
                         If you don't have access to the shell of the machine, upload a file with these contents to it and load it via the browser
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/phpinfo.php">&lt;?php
-	phpinfo();</code></pre>
+    phpinfo();</code></pre>
                     </li>
                 </ul>
             </section>
@@ -2092,10 +2115,10 @@ Architecture => x64
                 <ul>
                     <li>
                         Know your PHP version by running <code>php -v</code>
-                        <pre class="bigger"><code class="hljs php">mjoris$ php -v
-PHP 7.2.11 (cli) (built: Oct 10 2018 02:04:07) ( ZTS MSVC15 (Visual C++ 2017) x64 )
-Copyright (c) 1997-2018 The PHP Group
-Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies</code></pre>
+                        <pre class="bigger"><code class="hljs php">$ php -v
+PHP 7.4.10 (cli) (built: Sep 10 2020 13:50:32) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v3.4.0, Copyright (c) Zend Technologies</code></pre>
                     </li>
                     <li style="margin-top: 1em;">
                         Convert a PHP file to a syntax highlighted HTML file with <code>php -s file.php</code>
@@ -2109,26 +2132,26 @@ Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies</code></pre>
         <section>
 
             <section>
-                <h2>03.7<br>A bit more on PHP on the webserver </h2>
+                <h2>03.7<br>PHP in a Web Context</h2>
             </section>
 
 
             <section>
                 <h2>Whitespace in the browser (1)</h2>
                 <ul>
-                    <li class="fragment">
+                    <li>
                         Echo'ing a <code>PHP_EOL</code> to the browser does not result in a newline on the screen (but it does in the source code)
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/whitespace_01.php">&lt;?php
-	for ($i = 0; $i &lt; 5; $i++) {
-		echo $i+1 . PHP_EOL;
-	}</code></pre>
+    for ($i = 0; $i &lt; 5; $i++) {
+        echo $i+1 . PHP_EOL;
+    }</code></pre>
                     </li>
-                    <li class="fragment">
+                    <li>
                         You'll also need to output a <code>&lt;br /&gt;</code>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/whitespace_02.php">&lt;?php
-	for ($i = 0; $i &lt; 5; $i++) {
-		echo $i+1 . '&lt;br /&gt;' . PHP_EOL;
-	}</code></pre>
+    for ($i = 0; $i &lt; 5; $i++) {
+        echo $i+1 . '&lt;br /&gt;' . PHP_EOL;
+    }</code></pre>
                     </li>
                 </ul>
 
@@ -2136,62 +2159,90 @@ Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies</code></pre>
 
             <section>
                 <h2>Whitespace in the browser (2)</h2>
-                <ul>
-                    <li class="fragment">
+                <ul style="width: 100%;">
+                    <li>
                         What about <code>var_dump()</code> or <code>print_r()</code>?
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/whitespace_03.php">&lt;?php
-	var_dump($_SERVER);</code></pre>
+    var_dump($_SERVER);</code></pre>
                     </li>
-                    <li class="fragment">
+                    <li>
                         No single-line way to convert the newlines to <code>&lt;br /&gt;</code>
                         <ul>
                             <li>
                                 &rarr; Luckily HTML provides us with the <code>&lt;pre&gt;</code> element
                                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/whitespace_04.php">&lt;?php
-	function dump($var) {
-		echo '&lt;pre&gt;';
-		var_dump($var);
-		echo '&lt;/pre&gt;';
-	}
+    function dump($var) {
+        echo '&lt;pre&gt;';
+        var_dump($var);
+        echo '&lt;/pre&gt;';
+    }
 
-	dump($_SERVER);</code></pre>
+    dump($_SERVER);</code></pre>
                             </li>
                         </ul>
                     </li>
                 </ul>
-                <footer class="fragment">When Xdebug 2 is enabled, <code>var_dump()</code> is <a href="https://xdebug.org/docs/display">HTML formatted</a> by default<br><em>Note: <code>$_SERVER</code> is a superglobal holding information about the server and execution environment</em></footer>
+                <footer><small>When Xdebug 2 is enabled, <code>var_dump()</code> is <a href="https://xdebug.org/docs/display">HTML formatted</a> by default<br>Note: <code>$_SERVER</code> is a superglobal holding information about the server and execution environment</small></footer>
+            </section>
+
+            <section>
+                <h2>HTTP status code</h2>
+                <ul>
+                    <li>It's possible to manipulate the HTTP status code sent via the <strong>HTTP response head</strong> from within PHP</li>
+                    <li>
+                        Just use the <code>http_response_code()</code> function
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+
+// Tell the browser this page was not found on the server
+http_response_code(404);
+
+?&gt;&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Oops&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Oops&lt;/h1&gt;
+  &lt;p&gt;The page you were looking for was not found on this server.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+
+                </ul>
             </section>
 
             <section>
                 <h2>Headers (1)</h2>
                 <ul>
-                    <li class="fragment">It's possible to manipulate the headers sent via the <strong>response head</strong> from within PHP</li>
-                    <li class="fragment">
+                    <li>It's possible to manipulate the headers sent via the <strong>HTTP response head</strong> from within PHP</li>
+                    <li>
                         Just use the <code>header()</code> function
                         <pre class="bigger"><code class="hljs php">&lt;?php
 
-	// Instruct the browser to redirect to ikdoeict.be
-	header('Location: http://www.ikdoeict.be');
-	// @note: example is not complete (yet)</code></pre>
+    // Instruct the browser to redirect to ikdoeict.be
+    header('Location: http://www.ikdoeict.be');
+    // @note: example is not complete (yet)</code></pre>
                     </li>
+                    <li>When you specify the <code>Location</code> header, PHP automatically changes the status code into <span style="color:orange;">302</span></li>
                 </ul>
             </section>
 
             <section>
                 <h2>Headers (2)</h2>
                 <ul>
-                    <li class="fragment">
+                    <li>
                         When redirecting <em>(e.g. in a scenario not being logged in for example)</em> you <strong>MUST</strong> stop the script executing further to prevent the content from being transmitted to the user
                     </li>
-                    <li class="fragment" style="margin-top: 1em">
+                    <li style="margin-top: 1em">
                         Scripts can be stopped prematurely via <code>exit()</code> or <code>die()</code>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/redirect.php">&lt;?php
 
-	// Instruct the browser to redirect to ikdoeict.be
-	header('Location: http://www.ikdoeict.be');
-	exit();
+    // Instruct the browser to redirect to ikdoeict.be
+    header('Location: http://www.ikdoeict.be');
+    exit();
 
-	echo 'This line will be ignored';</code></pre>
+    echo 'This line will be ignored';</code></pre>
                     </li>
                 </ul>
             </section>
@@ -2199,28 +2250,50 @@ Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies</code></pre>
             <section>
                 <h2>Headers (3)</h2>
                 <ul>
-                    <li class="fragment">
+                    <li>
                         As per protocol spec, the <em>response head</em> must be sent before <em>response body</em>
                     </li>
-                    <li class="fragment" style="margin-top: 1em">
+                    <li style="margin-top: 1em">
                         Put differently: once you've started sending the <em>response body</em>, it's impossible to manipulate the <em>response head</em>
 
-                        <div class="fragment"><pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/redirect_fail.php">&lt;?php
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/redirect_fail.php">&lt;?php
 
-	echo 'Will it blend?';
+    echo 'Will it blend?';
 
-	header('Location: http://www.ikdoeict.be');
-	exit();</code></pre></div>
+    header('Location: http://www.ikdoeict.be');
+    exit();</code></pre></div>
 
-                        <div class="fragment"><pre class="bigger"><code>Warning: Cannot modify header information - headers already sent by (output started at assets/03/examples/redirect_fail.php:3) in assets/03/examples/redirect_fail.php on line 5</code></pre></div>
+                        <div style="width: 100%;float:right;"><pre class="bigger"><code class="hljs bash">Warning: Cannot modify header information - headers already sent by (output started at
+assets/03/examples/redirect_fail.php:3) in
+assets/03/examples/redirect_fail.php on line 5</code></pre></div>
                     </li>
                 </ul>
-                <footer class="fragment"><em>Note: with outbut buffering enabled in your <strong>php.ini</strong> file, this might work, depending on the buffer size</em></footer>
+                <footer><em>Note: with outbut buffering enabled in your <strong>php.ini</strong> file, this might work, depending on the buffer size</em></footer>
             </section>
 
+
+
+            <section>
+                <h2>Headers (4)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Changing the document type and forcing the download<pre><code class="hljs php">&lt;?php
+
+    // We'll be outputting a PDF
+    header('Content-Type: application/pdf');
+
+    // It will be called downloaded.pdf
+    header('Content-Disposition: attachment; filename="downloaded.pdf"');
+
+    // The PDF source is in original.pdf
+    readfile('original.pdf');</code></pre>
+                        </li>
+                </ul>
+
+
+
+            </section>
         </section>
-
-
 
         <!-- Conventions: code style -->
         <section>
@@ -2234,11 +2307,17 @@ Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies</code></pre>
                     <li>Use the full PHP open tag <code>&lt;?php</code>. The closing tag may be omitted</li>
                     <li>Develop with <code>error_reporting()</code> set to <code>E_ALL</code> and <code>display_errors</code> set to <code>On</code></li>
                     <li>
-                        Correctly indent code
+                        Basics
                         <ul>
-                            <li>Within <code>if-else</code>,<code>do-while</code>,<code>for/foreach</code>, <code>switch</code>,...</li>
-                            <li>Indent with a <code>TAB</code>, not a few spaces</li>
+                            <li>Correctly indent code blocks</li>
+                            <li>Always use <code>{</code> after control structures, on the same line as the keyword </li>
+                            <li>Spaces: after <code>,</code>, <code>if</code>, <code>else</code>, <code>while</code>, &hellip; ; before <code>{</code> ; at both sides of operators</li>
                         </ul>
+                        <pre><code class="hljs php">&lt;?php
+    if (($a < 3) && ($b > 4)) {
+        $answer = implode('#', [1, 2, 3]);
+        $capacity = (3 + 6) . 'k';
+    }</code></pre>
                     </li>
                     <li>
                         Comment your code properly
@@ -2252,29 +2331,27 @@ Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies</code></pre>
             <section>
                 <h2>Course conventions (2)</h2>
                 <ul>
-                    <li>Never use <code>global</code> but preferably use a constant/define</li>
                     <li>Use single quotes to delimit strings</li>
                     <li>
                         Give variables and functions a clear name and use camelCasing
                         <ul>
-                            <li>e.g. $numArticles, $firstName, calculateDistance(), etc.</li>
-                            <li>Exception: counters in loops such as $x, $y</li>
+                            <li>e.g. <code>$numArticles</code>, <code>$firstName</code>, <code>calculateDistance()</code>, etc.</li>
+                            <li>Exception: counters in loops such as <code>$x</code>, <code>$y</code></li>
                         </ul>
                     </li>
                     <li>
-                        Curly braces always go on the same line as the keyword
-                    </li>
-                    <li>
-                        Use <em>identical operators</em> when comparing variables/values with booleans or <code>null</code>
+                        Use <code>===</code> when comparing variables/values with booleans or <code>null</code>
                     </li>
                     <li>
                         When necessary cast variables to prevent stupid errors
                     </li>
+                    <li>Use <strong>type declaration</strong> for function parameters, function return types and class properties</li>
+                    <li>Only use <code>@</code> when you have no other option</li>
                     <li>
-                        Never use <code>$_REQUEST</code> (see 04.forms)
+                        Never use <code>global</code> nor <code>$_REQUEST</code> (see 04.forms)
                     </li>
                     <li>
-                        When in doubt: check the domestic conventions or ask your lecturer
+                        When in doubt: ask your lecturer
                     </li>
                 </ul>
             </section>

@@ -4,7 +4,7 @@
 
 	$host = 'http://www.myhost.com/';
 
-	$absUrl = function ($relUrl) use ($host) {
+	$absUrl = function (string $relUrl) use ($host) {
 		return $host . $relUrl;
 	};
 
