@@ -157,6 +157,7 @@
                             <li><code>path</code></li>
                             <li><code>domain</code></li>
                             <li><code>secure</code></li>
+                            <li><code>httponly</code></li>
                         </ul>
                     </li>
                     <li>
@@ -233,6 +234,17 @@
                                 Indicates if a cookie may only be transmitted from the client to the server when running over a secure connection
                                 <ul>
                                     <li>Default: not activated</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <code>httponly</code>
+                        <ul>
+                            <li>
+                                If true, the cookie is not accessible by JavaScript (prevents against XSS)
+                                <ul>
+                                    <li>Default: false</li>
                                 </ul>
                             </li>
                         </ul>
@@ -699,7 +711,7 @@ session.cache_limiter = '' // for security reasons: no caching at client</code><
                     <li>It is advisable to store sensitive data server-side. Sessions are excellent in it. Sessions's security (sid hijacking) depends on underlying technologies.
                         Sometimes the visitor's IP is linked to the session...</li>
                 </ul>
-                <footer>What about filling out multiple step forms in multiple browser tabs?</footer>
+
             </section>
 
             <section>
