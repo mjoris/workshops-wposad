@@ -31,7 +31,7 @@ del code, code.nok {
 }
 
 ins code, code.ok {
-    color: #5C5;
+    color: #008800;
 }
 
 /* zoomable components */
@@ -46,6 +46,29 @@ ins code, code.ok {
 .zoomable-20:hover {
     transform: scale(2);
 }
+
+/* slides with columns */
+.columns .column {
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.columns .column img {
+    max-width: 100%;
+}
+
+.columns .column-12 {
+    width: 50%;
+}
+
+.columns .column-13 {
+    width: 33.333%;
+}
+
+/* warnings */
+/* TODO */
 
 /* quick fixes */
 .reveal table.doctable th, .reveal table.doctable td {
@@ -88,7 +111,7 @@ ins code, code.ok {
 
 .reveal .toc nav:hover {
     opacity: 0.97;
-    background: #4d7e65;
+    background: #b5533c;
     box-shadow: 3px 3px 7px #1c1e20;
 }
 
