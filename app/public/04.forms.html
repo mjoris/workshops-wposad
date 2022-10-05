@@ -161,7 +161,7 @@
                 <h2>GET vs POST (2)</h2>
                 <div style="text-align: center;">
                     <figure class="zoomable-15 fragment">
-                        <img src="assets/04/request-get.jpg" alt="HTTP/1.1 request of a form sent via GET"  width="500" />
+                        <img src="assets/04/request-get.jpg" alt="HTTP/1.1 request of a form sent via GET" width="500" />
                         <figcaption><small>HTTP/1.1 request of a form sent via GET</small></figcaption>
                     </figure>
                     <figure class="zoomable-15 fragment">
@@ -309,7 +309,7 @@
                         Possible if you already have parameters added onto the <code>target</code> URL
                     </li>
                 </ul>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/get_and_post.php">&lt;form action=&quot;form_process.php?foo=getfoo&amp;amp;bar=getbar&quot; method=&quot;post&quot;&gt;
+                <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/get_and_post.php">&lt;form action=&quot;form_process.php?foo=getfoo&amp;amp;bar=getbar&quot; method=&quot;post&quot;&gt;
 	&lt;fieldset&gt;
 		&lt;h2&gt;Get and Post&lt;/h2&gt;
 		&lt;dl class=&quot;clearfix&quot;&gt;
@@ -461,7 +461,7 @@
 
 
 
-        <!-- Persistency -->
+        <!-- Persistence -->
         <section>
 
             <section>
@@ -700,7 +700,7 @@
                     <li>
                         Don't ever trust user input
                         <ul>
-                            <li>Data might be crafted in a way to harm your server (XSS!)</li>
+                            <li>Data might be crafted in a way to harm your server (XSS!) or your data(base)</li>
                             <li>Data might be in the wrong format (e.g. dates)</li>
                         </ul>
                     </li>
@@ -714,7 +714,14 @@
                         </ul>
                     </li>
                 </ul>
-                <footer style="line-height:1;">Note that a user can easily edit the DOM (<code>POST</code>) or URL (<code>GET</code>)</footer>
+            </section>
+
+            <section>
+                <h2>Parameter Tampering</h2>
+                <p style="color: red;">Note that a user can easily edit the DOM (<code>POST</code>) or URL (<code>GET</code>)</p>
+                <p style="color: lightskyblue;">JavaScript cannot prevent malicious user input</p>
+                <p style="color: greenyellow;">Form control restrictions such as <code>&lt;input type="number" max="3"&gt;</code> cannot prevent malicious user input</p>
+                <p style="color: red;">Note that a user can <a href="https://linuxize.com/post/curl-post-request/">craft</a> any sort of HTTP request using <code>curl</code></p>
             </section>
 
 
@@ -725,7 +732,7 @@
                         Remember: clicked buttons are also sent
                     </li>
                 </ul>
-                        <div><pre class="bigger"><code class="hljs php">&lt;?php
+                <div><pre class="bigger"><code class="hljs php">&lt;?php
 
     // form was sent!
     if (isset($_POST['btnSubmit'])) {
@@ -748,7 +755,7 @@
 
 
                 </ul>
-                        <div><pre class="bigger"><code class="hljs php">&lt;?php
+                <div><pre class="bigger"><code class="hljs php">&lt;?php
 
     $moduleAction = isset($_POST['moduleAction']) ? $_POST['moduleAction'] : '';
 
@@ -782,7 +789,7 @@
                         Bonus: it affords to have one page process multiple forms
                     </li>
                 </ul>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/formchecking_multipleforms.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
+                <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/formchecking_multipleforms.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
 
     // initial values
     $moduleAction = isset($_POST['moduleAction']) ? $_POST['moduleAction'] : '';
@@ -891,6 +898,185 @@ exit(0); // do not forget to exit after redirect</code></pre></div>
                 </ul>
             </section>
         </section>
+
+
+        <!-- File Uploads -->
+        <section>
+
+            <section>
+                <h2>04.6<br>File Uploads</h2>
+            </section>
+
+            <section>
+                <h2>post_max_size and upload_max_filesize</h2>
+                <ul>
+                    <li>
+                        PHP can restrict the filesize of a POST request and uploads
+                    </li>
+                    <li>
+                        In <code>php.ini</code> the <code>post_max_size</code> and <code>upload_max_filesize</code> settings limit this
+                        <ul>
+                            <li>
+                                <code>post_max_size</code> limits the size of a POST request, including files
+                            </li>
+                            <li>
+                                <code>upload_max_filesize</code> limits the size of an uploaded file
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>File Uploads</h2>
+                <ul>
+                    <li>Preparation
+                        <ul>
+                            <li>Add the <code>enctype=&quot;multipart/form-data&quot;</code> attribute to the form </li>
+                            <li>Set the form <code>method</code> to <code>post</code></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Handling file uploads
+                        <ul>
+                            <li>PHP will fill the <code>$_FILES</code> superglobal with info about each file sent</li>
+                            <li>File uploads are stored in a temp folder on the server, you'll have to move them manually</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Demo</h2>
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/files_01.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+
+    &lt;fieldset&gt;
+
+        &lt;h2&gt;Testform&lt;/h2&gt;
+
+        &lt;dl class=&quot;clearfix&quot;&gt;
+
+            &lt;dt&gt;&lt;label for=&quot;image&quot;&gt;Image&lt;/label&gt;&lt;/dt&gt;
+            &lt;dd&gt;&lt;input type=&quot;file&quot; id=&quot;image&quot; name=&quot;image&quot; value=&quot;&quot; /&gt;&lt;/dd&gt;
+
+            &lt;dt&gt;
+                &lt;input type=&quot;hidden&quot; name=&quot;moduleAction&quot; value=&quot;processUpload&quot; /&gt;
+                &lt;input type=&quot;submit&quot; name=&quot;btnSubmit&quot; value=&quot;Send&quot; /&gt;
+            &lt;/dt&gt;
+
+        &lt;/dl&gt;
+
+    &lt;/fieldset&gt;
+
+&lt;/form&gt;</code></pre>
+                <footer >Note: it is not possible to persist files in the strict sense.</footer>
+            </section>
+
+            <section>
+                <h2>Under the hood</h2>
+                <ul>
+                    <li>
+                        The browser will send the file as an entity
+                        <ul>
+                            <li>Entities are sent in the <strong>request body</strong></li>
+                            <li>Entities are separated by a <strong>boundary</strong>, randomly generated by the browser</li>
+                            <li>Each entity has its own headers identifying the entity</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <figure class="zoomable-20">
+                    <img src="assets/04/files.jpg" alt="HTTP/1.1 request of a file sent via POST" title="HTTP/1.1 request of a file sent via POST" width="350" />
+                    <figcaption><small>HTTP/1.1 request of a file sent via POST</small></figcaption>
+                </figure>
+
+                <footer ><small>Note: the boundary and entity headers are part of the multipart/form-data [RFC 2388] standard</small></footer>
+            </section>
+
+            <section>
+                <h2>Handling file uploads (1)</h2>
+                <ul>
+                    <li>
+                        File size (and upload time) are limited by <a href="http://php.net/manual/en/features.file-upload.common-pitfalls.php">several settings</a> in <code>php.ini</code>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Files are uploaded to a temp location. You'll need to move them manually using <code>move_uploaded_file()</code>
+                    </li>
+                    <li>
+                        PHP will populate a <em>superglobal</em> named <code>$_FILES</code> containing that temp location per file.
+                    </li>
+                </ul>
+                <footer >Don't forget: make sure your webserver has the proper permissions!</footer>
+            </section>
+
+            <section>
+                <h2>Handling file uploads (2)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Example
+                    </li>
+                </ul>
+                <pre ><code class="language-php" data-overlay-example="assets/04/examples/upload.php">&lt;?php
+if (isset($_FILES['avatar']) &amp;&amp; ($_FILES['avatar']['error'] === UPLOAD_ERR_OK)) {
+
+    echo '&lt;p&gt;Uploaded file: ' . $_FILES['avatar']['name'] . '&lt;/p&gt;';
+    echo '&lt;p&gt;Temp location: ' . $_FILES['avatar']['tmp_name'] . '&lt;/p&gt;';
+    echo '&lt;p&gt;Size: ' . $_FILES['avatar']['size'] . '&lt;/p&gt;';
+
+    if (in_array((new SplFileInfo($_FILES['avatar']['name']))-&gt;getExtension(), ['jpeg', 'jpg', 'png', 'gif'])) {
+
+        $moved = @move_uploaded_file($_FILES['avatar']['tmp_name'], __DIR__ . '/' . $_FILES['avatar']['name']);
+        if ($moved) {
+            echo '&lt;p&gt;&lt;img src="' . $_FILES['avatar']['name'] . '" alt=&quot;&quot; /&gt;&lt;p&gt;';
+        } else {
+            echo('&lt;p&gt;Error while saving file in the uploads folder&lt;/p&gt;')
+        }
+    } else {
+        echo('&lt;p&gt;Invalid extension. Only .jpeg, .jpg, .png or .gif allowed&lt;/p&gt;');
+    }
+}
+
+?&gt;
+&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF'];?&gt;&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot; &gt;
+	&lt;input type=&quot;file&quot; name=&quot;avatar&quot; id=&quot;avatar&quot; /&gt;&lt;input type=&quot;submit&quot; /&gt;
+&lt;/form&gt;</code></pre>
+
+                <footer  style="line-height: 1.2em">Full reference of <a href="http://php.net/manual/en/features.file-upload.errors.php">upload error codes</a>.
+                    <br/>
+                    Caution: this is just a demo.
+                    <br>
+                    In a properly structured script, you don't <code>echo</code> in the PHP Logic at the top.
+                </footer>
+            </section>
+
+            <section>
+                <h2>Security / Best Practices</h2>
+
+                <ul>
+                    <li>
+                        Provide a separate, dedicated folder to store all uploads
+                        <ul>
+                            <li>e.g. <code>files/</code></li>
+                            <li>Use subfolders where appropriate, e.g. <code>files/photoalbums/1</code> and <code>files/photoalbums/2</code></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 0.5em;">
+                        Rename files when moving them to prevent name conflicts
+                        <ul>
+                            <li> e.g. give photos in photoalbums a sequential name such as <code>1.jpg</code>, <code>2.jpg</code>, etc.</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 0.5em;">
+                        Always limit the allowed file extensions
+                        <ul>
+                            <li>You don't want one to upload a <code>.php</code> file, right?</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+        </section>
+
 
 
 
