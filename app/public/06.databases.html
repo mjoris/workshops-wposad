@@ -95,7 +95,7 @@
                         </ul>
                     </li>
                     <li>
-                        To connect to a MySQL server, 3 extensions exist
+                        To connect to a MySQL server, <s>3</s> 2 extensions exist
                         <ul>
                             <li><code><s>mysql</s></code> (removed in PHP 7.0) &mdash; Classic extension, procedural (= based on methods)</li>
                             <li><code>mysqli</code> &mdash; Improved version of the <code>mysql</code> extension. Supports Prepared Statements, Multiple Statements, Transactions, etc. Both OO and procedural</li>
@@ -297,7 +297,7 @@
 									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/02c.php">&lt;?php
 
     function showDbError(string $type) : void {
-        header('location: error.php?type=db&amp;detail=' . $type);
+        header('Location: error.php?type=db&amp;detail=' . $type);
         exit();
     }
 
@@ -419,16 +419,17 @@ var_dump($stmt);</code></pre>
                 <h2>Executing Faulty Queries</h2>
                 <ul>
                     <li>
-                        When you write a faulty query <em>(wrong syntax, inexistent table referenced, etc)</em> it will fail silently
+                        When you write a faulty query <em>(wrong syntax, inexistent table referenced, etc)</em> it will throw a <code>PDOException</code>
                         <ul>
                             <li>
-                                As a developer, you don't want this; you want to know where you messed up and fix it.
+                                So, as a developer, you know where you messed up and you can fix it.
                             </li>
                         </ul>
+
+
                     </li>
-                    <li style="margin-top: 1em;">
-                        Call <code>PDO::setAttribute()</code><small><a href="http://www.php.net/manual/en/pdo.setattribute.php">&#9873;</a></small> to change the error mode so that exceptions are thrown when a faulty query is executed
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/03c.php">try {
+                </ul>
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/03c.php">try {
     $db = new PDO('mysql:host=' . DB_HOST .';dbname=' . DB_NAME_FF . ';charset=utf8mb4', DB_USER, DB_PASS);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
@@ -436,8 +437,6 @@ var_dump($stmt);</code></pre>
 }
 
 $stmt = $db->exec('DELETE FROM inexistent_table WHERE user_id = 10');</code></pre>
-                    </li>
-                </ul>
             </section>
 
         </section>
@@ -459,8 +458,8 @@ $stmt = $db->exec('DELETE FROM inexistent_table WHERE user_id = 10');</code></pr
                     <li style="margin-top: 1em;">
                         If you don't, users can perform SQL Injection
                         <ul>
-                            <li>Just as XSS, <a href="http://blogs.msdn.com/b/ie/archive/2012/09/10/xss-trends-and-internet-explorer.aspx">SQL Injection is a real world and big problem</a>!</li>
-                            <li><em>&ldquo;SQL injection is the most pernicious vulnerability in human computer history&rdquo;</em> (<a href="http://blog.imperva.com/2011/09/sql-injection-by-the-numbers.html">source</a>)</li>
+                            <li>Just as XSS, <a href="https://www.imperva.com/blog/sql-injection-attacks-so-old-but-still-so-relevant-heres-why-charts/">SQL Injection is still a real world and big problem</a>!</li>
+                            <li><em>&ldquo;SQL injection is the most pernicious vulnerability in human computer history&rdquo;</em></li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;">
@@ -891,7 +890,7 @@ echo 'Deleted ' . $stmt->rowCount() . ' rows';</code></pre>
                         In general
                         <ul>
                             <li>
-                                <a href="https://en.wikipedia.org/wiki/Character_encoding">Character set encoding</a> e.g. <a href="https://en.wikipedia.org/wiki/ASCII">ASCII</a>, <a href="https://en.wikipedia.org/wiki/UTF-8#Description">UTF-8</a>
+                                <a href="https://en.wikipedia.org/wiki/Character_encoding">Character set encoding</a> e.g. <a href="https://en.wikipedia.org/wiki/ASCII">ASCII</a>, <a href="https://en.wikipedia.org/wiki/UTF-8#Encoding">UTF-8</a>
                             </li>
                             <li>
                                 <a href="https://en.wikipedia.org/wiki/Collation">(Automated) collation</a>
@@ -899,7 +898,7 @@ echo 'Deleted ' . $stmt->rowCount() . ' rows';</code></pre>
                         </ul>
                     </li>
                     <li>
-                        Available <a href="http://dev.mysql.com/doc/refman/5.7/en/charset-charsets.html">charset and collations in MySQL</a>
+                        Available <a href="http://dev.mysql.com/doc/refman/8.0/en/charset-charsets.html">charset and collations in MySQL</a>
                         <ul>
                             <li>
                                 Example charset: <code>utf8</code>
@@ -942,7 +941,7 @@ echo 'Deleted ' . $stmt->rowCount() . ' rows';</code></pre>
                                 DB Connection
                             </li>
                             <li>
-                                HTML charset (or HTTP response header)
+                                Your PHP/HTML file (+ ev. HTTP response header)
                             </li>
                         </ol>
                     </li>
@@ -969,9 +968,8 @@ DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;</code></pre>
                         <pre class="bigger"><code class="hljs php">$db = new PDO('mysql:host=' . DB_HOST .';dbname=' . DB_NAME_FF . ';charset=utf8mb4', DB_USER, DB_PASS);</code></pre>
                     </li>
                     <li>
-                        HTML charset
-                        <pre class="bigger"><code class="language-html dontrun">&lt;meta charset=&quot;utf-8&quot; /&gt;</code></pre>
-                        or HTTP response header
+                        Your PHP/HMTL files has UTF-8 encoding
+                        + ev. HTTP response header
                         <pre class="bigger"><code class="hljs php">header('Content-Type: text/html; charset=UTF-8');</code></pre>
                     </li>
                 </ol>
@@ -1018,7 +1016,7 @@ DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;</code></pre>
                                 <pre class="bigger"><code class="hljs php">SELECT date_format(&quot;%Y-%m-%d&quot;, publishTimestamp) AS readabledate FROM ...</code></pre>
                             </li>
                             <li>Most format directives the same as in PHP but with leading <code>%</code></li>
-                            <li>See <a href="http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html #function_date-format">mysql docs</a> for more info</li>
+                            <li>See <a href="https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html#function_date-format">mysql docs</a> for more info</li>
                         </ul>
                     </li>
                     <li>
@@ -1252,10 +1250,10 @@ if (password_verify($pass, $encrypted)) { &hellip; }</code></pre>
             <section>
                 <h2>Sources</h2>
                 <ul>
-                    <li><a href="http://wiki.hashphp.org/PDO_Tutorial_for_MySQL_Developers">http://wiki.hashphp.org/PDO_Tutorial_for_MySQL_Developers</a></li>
-                    <li><a href="http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/">http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/</a></li>
+                    <li><a href="https://www.webcarpenter.com/blog/52-PDO-Tutorial-for-MySQL-Developers">https://www.webcarpenter.com/blog/52-PDO-Tutorial-for-MySQL-Developers</a></li>
+                    <li><a href="https://code.tutsplus.com/tutorials/why-you-should-be-using-phps-pdo-for-database-access--net-12059">https://code.tutsplus.com/tutorials/why-you-should-be-using-phps-pdo-for-database-access--net-12059</a></li>
                     <li><a href="http://www.kitebird.com/articles/php-pdo.html">http://www.kitebird.com/articles/php-pdo.html</a></li>
-                    <li><a href="http://shiflett.org/blog/2006/jan/addslashes-versus-mysql-real-escape-string">http://shiflett.org/blog/2006/jan/addslashes-versus-mysql-real-escape-string</a></li>
+                    <li><a href="https://shiflett.org/blog/2006/addslashes-versus-mysql-real-escape-string">https://shiflett.org/blog/2006/addslashes-versus-mysql-real-escape-string</a></li>
                     <li><a href="http://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql">http://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql</a></li>
                 </ul>
             </section>
