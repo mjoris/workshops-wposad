@@ -1,0 +1,1806 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>WPoSaD – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .reveal ul.arrow {
+            list-style-type: none;
+            font-size: 80%;
+            margin: 0;
+            margin-left: 1.25em;
+            padding: 0;
+        }
+
+        .reveal ul.arrow li {
+            padding-bottom: 0;
+            margin: 0;
+            line-height: 1.2em;
+        }
+        .reveal ul.arrow li:before {
+            content: '⟶ ';
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <div class="slides">
+        <section data-background="#4d7e65">
+            <h3>Web Programming on Servers and Devices <small>[OGI03<span style="text-transform: lowercase;">v</span>]</small></h3>
+            <h1>08. Javascript<br>DOM</h1>
+            <footer><small>Slides by: <em>Rogier Van Der Linde</em>, <em>Bart Delrue</em> &nbsp;&bullet;&nbsp; Composition and updates: <em>Joris Maervoet</em></small></footer>
+        </section>
+
+
+        <section>
+            <section>
+                <h2>08.1<br>Introduction</h2>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Document Object Model: Intro (1)</h2>
+                <q>The Document Object Model (DOM) is the data representation of the objects that comprise the structure
+                    and content web page, such that it can be inspected/manipulated by a Javascript program</q>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Document Object Model: Intro (2)</h2>
+                <div class="r-hstack">
+                    <img alt="" src="assets/08/DOM-tree.png">
+                    <img alt="" src="assets/08/DOM-doc.png">
+                </div>
+            </section>
+            <section>
+                <h2>Document Object Model: Intro (3)</h2>
+                <ul class="left">
+                    <li>Nodes &rarr; ~ HTML tags</li>
+                    <li>Nodes have properties: classList, innerText, innerHTML, children, id, attributes...</li>
+                    <li>Nodes (can) have event handlers attached</li>
+                </ul>
+                <div class="m-t-4">
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">more about Nodes</a>
+                </div>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>08.2<br>Exploring the BOM &amp; the DOM</h2>
+            </section>
+            <section  data-background="#fdfdfd">
+                <h2>Browser Object Model</h2>
+                <ul>
+                    <li>
+                        consists of objects that deal with the browser: <code>window</code> and its child objects
+                        <code>navigator</code>, <code>history</code>, <code>screen</code>, <code>location</code> and <code>document</code>
+                    </li>
+                    <li><code>document</code> is the DOM</li>
+                    <li>
+                        Some interesting parts: <br />
+                        <img src="assets/08/dom_leanc0.png" alt="" width="500" style="display: block; margin: 30px auto" />
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Nodes of the BOM/DOM</h2>
+                <ul>
+                    <li>
+                        Nodes can be an element or collection of elements.
+                    </li>
+                    <li>
+                        Each element of the tree has
+                        <ul>
+                            <li><em>properties</em> like <code>width</code>, <code>value</code>, <code>src</code> etc... (some are read/write, others are read only)</li>
+                            <li><em>methods</em> like <code>submit()</code>, <code>focus()</code> etc.. (which <a href="01_syntax.html#/19">are actually properties too</a>)</li>
+                            <li><em>events</em> like <code>onclick</code>, <code>onchange</code>, <code>onload</code> etc...</li>
+                        </ul>
+                    </li>
+                    <li>
+                        The list is different for each element:
+                        <ul>
+                            <li>
+                                the available properties, functions and events depend on node type (image, input...)
+                            </li>
+                            <li>
+                                the values of the properties depend on the state of the node
+                            </li>
+                            <li>
+                                almost all events are fired because of user interaction
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        The best hands-on DOM reference I know is <a href="http://www.w3schools.com/jsref/default.asp">W3Schools</a>
+                    </li>
+                </ul>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>DOM &amp; BOM Documentation</h2>
+                <figure style="display: block; margin: 30px auto; width: 500px; overflow: hidden;">
+                    <img src="assets/08/ss_w3c.png" alt="" class="border" style="width: 100%" />
+                    <figcaption style="text-align: right;"><a href="https://www.w3schools.com/jsref/default.asp">https://www.w3schools.com/jsref/</a></figcaption>
+                </figure>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Window (1)</h2>
+                <img src="assets/08/dom_leanc1.png" alt="" width="500" style="display: block; margin: 30px auto" />
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Window (2)</h2>
+                <img src="assets/08/ss_window.png" alt="" style="display: block; margin: 30px auto 10px; width: 700px;" />
+                <small>&rarr; full listing <a href="https://www.w3schools.com/jsref/obj_window.asp">here</a></small>
+            </section>
+            <section data-toc-title="">
+                <h2>Window (3)</h2>
+                <ul>
+                    <li>
+                        Using properties:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">console.log('kader: ' + window.innerWidth + 'x' + window.innerHeight);</code></pre>
+                    </li>
+                    <li>
+                        Using Methods:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">window.alert('hi');
+window.scrollTo(0, 1200);
+if (window.confirm('print this page?')) window.print();</code></pre>
+                    </li>
+                    <li>
+                        As <code>window</code> is the root of any path, you may omit this:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">console.log('kader: ' + innerWidth + 'x' + innerHeight);
+alert('hi');
+scrollTo(0, 1200);
+if (confirm('print this page?')) print();</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>History (1)</h2>
+                <img src="assets/08/dom_leanc2.png" alt="" width="500" style="display: block; margin: 30px auto" />
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>History (2)</h2>
+                <img src="assets/08/ss_history.png" alt="" style="display: block; margin: 30px auto 10px; width: 700px;" />
+                <small>&rarr; full listing <a href="https://www.w3schools.com/jsref/obj_history.asp">here</a></small>
+            </section>
+            <section data-toc-title="">
+                <h2>History (3)</h2>
+                <ul>
+                    <li>
+                        You are not supposed to mess with browser history:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun wrong">history.back(); // don't use this!
+
+</code></pre>
+                    </li>
+                    <li>
+                        Since HTML5 this node contains some interesting new methods like <code>pushState()</code> and <code>popState()</code>, which can be used to maintain browsing history logic in rich Javascript applications.
+                    </li>
+                </ul>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Location (1)</h2>
+                <img src="assets/08/dom_leanc3.png" alt="" width="500" style="display: block; margin: 30px auto" />
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Location (2)</h2>
+                <img src="assets/08/ss_location.png" alt="" style="display: block; margin: 30px auto 10px; width: 700px;" />
+                <small>&rarr; full listing <a href="https://www.w3schools.com/jsref/obj_location.asp">here</a></small>
+            </section>
+            <section data-toc-title="">
+                <h2>Location (3)</h2>
+                <ul>
+                    <li>
+                        Refers to the address bar. Example forcing a redirect:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">location.href = 'http://www.google.be';
+</code></pre>
+                    </li>
+                    <li>
+                        Return page hash:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">console.log(location.hash);
+</code></pre>
+                    </li>
+                    <li>
+                        Reload the page:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">location.reload();
+</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Document (1)</h2>
+                <img src="assets/08/dom_leanc4.png" alt="" width="500" style="display: block; margin: 30px auto" />
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Document (2)</h2>
+                <img src="assets/08/ss_document.png" alt="" style="display: block; margin: 30px auto 10px; width: 700px;" />
+                <small>&rarr; full listing <a href="https://www.w3schools.com/jsref/dom_obj_document.asp">here</a></small>
+            </section>
+            <section data-toc-title="">
+                <h2>Document (3)</h2>
+                <ul>
+                    <li>
+                        This node carries the entire HTML document. The node itself is rather uninteresting, with only a few properties and methods (apart from the selector functions we'll talk about in a minute):
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">document.title = "hello there";
+</code></pre>
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">document.write('kot kot kedei'); // beware: this page will be overwritten
+</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Finding an element (1)</h2>
+                <img src="assets/08/dom_leanc5.png" alt="" width="500" style="display: block; margin: 30px auto" />
+            </section>
+            <section>
+                <h2>Finding an element (2)</h2>
+                <ul style="width: 80%;">
+                    <li>
+                        Find individual elements by id or by CSS selector:
+                        <pre class="bigger"><code contenteditable class="language-javascript">// get element by its id
+const button1 = document.getElementById('btnOk');
+
+// get first element matched by CSS selector
+const el = document.querySelector('#siteWrapper pre.bigger:last');</code></pre>
+                    </li>
+                    <li>
+                        You can search inside any element, not just <code>document</code>:
+                        <pre class="bigger"><code contenteditable class="language-javascript">// find menu wrapper
+const wrapper = document.getElementById('#menuWrapper');
+
+// find active link inside wrapper
+const activeLink = wrapper.querySelector('#siteWrapper li.active a');</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Collections of elements (1)</h2>
+                <img src="assets/08/dom_leanc6.png" alt="" width="500" style="display: block; margin: 30px auto" />
+            </section>
+            <section data-toc-title="">
+                <h2>Collections of elements (2)</h2>
+                <ul style="width: 80%;">
+                    <li>
+                        Find multiple elements &mdash; <em>collections</em> &mdash; by CSS selector:
+                        <pre class="bigger"><code contenteditable class="language-javascript">// find all images within gallery
+const galleryImgs = document.querySelectorAll('#myGallery img');
+
+// find all checked checkboxes
+const inpChecked = document.querySelectorAll('input[type=checkbox]:checked');
+</code></pre>
+                    </li>
+                    <li>
+                        Treat collections as classic arrays:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">// find all elements with a src attribute
+const srcElements = document.querySelectorAll('*[src]');
+
+// access third element
+console.log(srcElements[2]);
+
+// iterate with normal for-loop
+for (let i = 0; i < srcElements.length; i++) {
+  console.log(srcElements[i].nodeName + ': ' + srcElements[i].src);
+}
+</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section data-toc-title="">
+                <h2>Collections of elements (3)</h2>
+                <ul style="width: 80%;">
+                    <li>
+                        Alas, properties do not distribute:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">// find images
+const galleryImgs = document.querySelectorAll('pre.bigger code');
+
+// set opacity of all to 0.8 -> does not work!
+galleryImgs.style.opacity = '0.8';
+</code></pre>
+                    </li>
+                    <li>
+                        You will have to iterate manually:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">// find images
+const galleryImgs = document.querySelectorAll('pre.bigger code');
+
+// set opacity one by one -> works
+for (let i = 0; i < galleryImgs.length; i++) {
+  galleryImgs[i].style.opacity = '0.5';
+}
+</code></pre>
+                    </li>
+                </ul>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>08.3<br>Manipulating the DOM</h2>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>DOM documentation</h2>
+                <ul>
+                    <li>
+                        Most interesting properties and methods for <em>DOM Elements</em>:
+                        <img src="assets/08/ss_elements.png" alt="" class="border" style="display: block; margin: 30px auto; width: 700px;" />
+                        <small>&rarr; full listing <a href="https://www.w3schools.com/jsref/dom_obj_all.asp">here</a></small>
+                    </li>
+                </ul>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>DOM documentation</h2>
+                <ul>
+                    <li>
+                        For individual elements, additional properties and methods exist, e.g. for <em>DOM Input Checkbox</em>:
+                        <img src="assets/08/ss_checkbox.png" alt="" class="border" style="display: block; margin: 30px auto; width: 700px;" />
+                        <small>&rarr; full listing <a href="https://www.w3schools.com/jsref/dom_obj_checkbox.asp">here</a></small>
+                    </li>
+                </ul>
+            </section>
+            <section class="hastooltip">
+                <h2>Manipulating CSS and content</h2>
+                <ul>
+                    <li>
+                        Some of the common properties and events for elements:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">// cache the variable
+const el = document.getElementById('manipulatingDemo');
+
+// change CSS properties (note: camelCased!)
+el.style.backgroundColor = '#cc6';
+el.style.padding = '20px';
+
+// set 'test' as classname
+el.className = 'test'; // or better: el.classList.add('test');
+el.innerHTML = 'I am THE demo';
+
+// add some events
+el.addEventListener('mouseover', function() {
+  this.innerHTML = 'Hammertime';
+});
+el.addEventListener('mouseout', function() {
+  this.innerHTML = 'Can\'t touch this';
+});</code></pre>
+                        <p id="manipulatingDemo" style="text-align: center;">I am the demo</p>
+                    </li>
+                </ul>
+                <div class="tooltip">
+                    <div>
+                        <p>
+                            To run the demo, click 'run' first, then hover over the 'I am the demo' text below
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h2>Manipulating properties</h2>
+                <ul>
+                    <li>
+                        There's a wide variety of elements: images, links, buttons, divs... Each may have its own additional properties, events and methods. Some examples:
+                        <pre class="bigger"><code class="language-html">&lt;form id="demoForm1"&gt;
+  &lt;label&gt;Yes/no: &lt;input type="checkbox" name="chb1" id="chb1" /&gt;&lt;/label&gt;;
+&lt;/form&gt;
+&lt;img src="assets/08/me.jpg" id="img1" width="40" height="40" /&gt;
+</code></pre>
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">document.getElementById('chb1').checked = true;</code></pre>
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">document.getElementById('img1').width = 20;</code></pre>
+                        <div  style="font-family: Courier; font-size: 14px; line-height: 1.2em">
+                            <form id="demoForm1" action="#" method="post">
+                                <label>Sample checkbox: <input type="checkbox" name="chb1" id="chb1" /></label>
+                            </form>
+                            <img src="assets/08/me.jpg" id="img1" width="40" height="40" alt="this is me" />
+                        </div>
+                    </li>
+                    <li>
+                        Again, <a href="http://www.w3schools.com/jsref/default.asp">w3schools.com</a> has an excellent DOM reference
+                    </li>
+                </ul>
+            </section>
+            <section data-toc-title="">
+                <h2>Manipulating properties</h2>
+                <ul>
+                    <li>
+                        You may still dig your way through the full-blown DOM scheme the old-fashioned way:
+                        <pre class="bigger"><code contenteditable class="language-javascript wrong">let button1 = document.forms.form1.btnOk;
+let image2 = document.images[1];
+let numLinks = document.links.length;
+</code></pre>
+                    </li>
+                    <li>
+                        There's nothing really <i>really</i> wrong with this syntax &mdash; and it's lightning fast &mdash; but for simplicity you might want to stick with our five selector functions.
+                    </li>
+                </ul>
+            </section>
+            <section class="hastooltip">
+                <h2>Add your own properties</h2>
+                <ul>
+                    <li>
+                        DOM elements are regular Javascript objects, so you can extend it with your own properties. A quick example:
+                        <pre class="bigger"><code contenteditable class="language-html">&lt;input type="button" value="button" /&gt;
+&lt;input type="button" value="button" /&gt;
+&lt;input type="button" value="button" /&gt;
+</code></pre>
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">// find buttons
+const buttons = document.querySelectorAll('input[value=button]');
+
+// add event function to prevent closures (see 01_syntax.html#/51)
+const addClickEvent = function(btn) {
+  btn.addEventListener('click', function() {
+    if (!this.numClicks) this.numClicks = 0; // glue a number to the button
+    this.numClicks++; // increment number of clicks
+    console.log(this.numClicks + ' times clicked');
+  });
+};
+
+// iterate over buttons adding click events
+for (let i = 0; i &lt; buttons.length; i++) {
+  addClickEvent(buttons[i]);
+}
+</code></pre>
+                        <input type="button" value="button" />
+                        <input type="button" value="button" />
+                        <input type="button" value="button" />
+                    </li>
+                </ul>
+                <div class="tooltip">
+                    <div>
+                        <p>
+                            To run the demo, click 'run' first to attach all events, then click the buttons multiple times in any order
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>08.4<br>Event handling</h2>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Events &mdash; documentation</h2>
+                <img src="assets/08/ss_events.png" alt="" style="display: block; margin: 30px auto; width: 600px;" />
+                <small>&rarr; full listing <a href="https://www.w3schools.com/jsref/dom_obj_event.asp">here</a></small>
+            </section>
+            <section class="hastooltip">
+                <h2>Attaching events</h2>
+                <ul style="width: 80%;">
+                    <li>
+                        Some examples:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">const par = document.getElementById('eventsDemo');
+
+par.addEventListener('click', function() {
+  console.log('You clicked me!');
+});
+par.addEventListener('mouseover', function() {
+  this.style.backgroundColor = '#333';
+  this.style.color = 'white';
+});
+par.addEventListener('mouseout', function() {
+  this.style.backgroundColor = '';
+  this.style.color = 'green';
+});</code></pre>
+                        <p id="eventsDemo" style="text-align: center;">I am the demo</p>
+                    </li>
+                </ul>
+                <ul class="arrow">
+                    <li>event names are used without 'on', e.g. 'onclick' becomes 'click'</li>
+                </ul>
+                <div class="tooltip">
+                    <div>
+                        <p>
+                            To run the demo, click 'run' first, then click on the 'I am the demo' text below
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section data-toc-title="">
+                <h2>Attaching events</h2>
+                <ul>
+                    <li>
+                        You can listen for the same event more than once:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">const par = document.getElementById('eventsDemo2');
+
+par.addEventListener('click', function() {
+  console.log('You clicked me (1)!');
+});
+par.addEventListener('click', function() {
+  console.log('You clicked me (2)!');
+});
+</code></pre>
+                        <p id="eventsDemo2" style="text-align: center;">I am the demo</p>
+                    </li>
+                </ul>
+                <div class="tooltip">
+                    <div>
+                        <p>
+                            To run the demo, click 'run' first, then click on the 'I am the demo' text below
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section data-toc-title="">
+                <h2>Attaching events</h2>
+                <ul>
+                    <li>
+                        You may also run across the older syntax for event hooking (notice <i>on</i>click instead of click):
+                        <pre class="bigger"><code contenteditable class="language-javascript wrong">document.getElementById('btn1').onclick = function() {
+  ...
+};
+</code></pre>
+                    </li>
+                    <li>
+                        This syntax does not allow hooking more than once or removing listeners, <strong>so don't use it.</strong>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Removing events</h2>
+                <ul>
+                    <li>
+                        You can also remove an event, but only if the attached function has a name:
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">const par = document.getElementById('eventsDemo3');
+const clickHandler1 = function() {
+  console.log('This is the first handler');
+};
+const clickHandler2 = function() {
+  console.log('This is the second handler');
+  this.removeEventListener('click', clickHandler1);
+};
+par.addEventListener('click', clickHandler1);
+par.addEventListener('click', clickHandler2);
+</code></pre>
+                        <p id="eventsDemo3" style="text-align: center;">I am the demo</p>
+                    </li>
+                </ul>
+                <div class="tooltip">
+                    <div>
+                        <p>
+                            To run the demo, click 'run' first, then click on the 'I am the demo' text below multiple times
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h2>Event bubbling</h2>
+                <ul>
+                    <li>
+                        What happens if two or more nested elements handle the same event:
+                        <pre class="bigger"><code class="language-html">&lt;div id="nDemo"&gt;
+  &lt;a href="#"&gt;&lt;img src="assets/08/me.jpg" alt=""&gt;&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+                        <pre class="bigger"><code contenteditable class="language-javascript">document.querySelector('#nDemo').addEventListener('click', function() {
+  console.log('div clicked');
+});
+document.querySelector('#nDemo img').addEventListener('click', function() {
+  console.log('img clicked');
+});
+document.querySelector('body').addEventListener('click', function() {
+  console.log('body clicked');
+});
+document.querySelector('#nDemo a').addEventListener('click', function() {
+  console.log('a clicked');
+});</code></pre>
+                        <div class="demolink"><a href="assets/08/examples/bubbling.html" target='_blank'>demo</a></div>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Prevent the default</h2>
+                <ul>
+                    <li>
+                        All events are executed from inside to outside, and finally the default browser action is executed: <em>event bubbling</em>.
+                    </li>
+                    <li>
+                        If you just want to prevent the browser action, call <code>preventDefault()</code> anywhere along the route:
+                        <pre class="bigger"><code class="language-html">&lt;div id="nDemo"&gt;
+  &lt;a href="https://www.google.be/"&gt;&lt;img src="assets/08/me.jpg" alt=""&gt;&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+                        <pre class="bigger"><code contenteditable class="language-javascript">...
+document.querySelector('#nDemo a').addEventListener('click', function(e) {
+  console.log('a clicked');
+  e.preventDefault();
+});
+</code></pre>
+                        <div class="demolink"><a href="assets/08/examples/preventDefault.html" target='_blank'>demo</a></div>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Stop bubble propagation</h2>
+                <ul style="width: 80%;">
+                    <li>
+                        If you want to stop bubbling, call <code>stopPropagation()</code>:
+                        <pre class="bigger"><code contenteditable class="language-javascript">...
+document.querySelector('#nDemo a').addEventListener('click', function(e) {
+  console.log('a clicked');
+  e.stopPropagation();
+});
+</code></pre>
+                        <div class="demolink"><a href="assets/08/examples/stopPropagation.html" target='_blank'>demo</a></div>
+                    </li>
+                    <li>
+                        If you want to stop both, call both:
+                        <pre class="bigger"><code contenteditable class="language-javascript">...
+document.querySelector('#nDemo a').addEventListener('click', function(e) {
+  console.log('a clicked');
+  e.stopPropagation();
+  e.preventDefault();
+});
+</code></pre>
+                        <div class="demolink"><a href="assets/08/examples/preventDefaultStopPropagation.html" target='_blank'>demo</a></div>
+                    </li>
+                </ul>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Event object properties</h2>
+                <img src="assets/08/ss_event_object.png" alt="" style="display: block; margin: 30px auto; width: 600px;" />
+                <small>&rarr; full listing <a href="https://www.w3schools.com/jsref/dom_obj_event.asp">here</a></small>
+                </ul>
+                <div class="tooltip">
+                    <div>
+                        <p>
+                            Note: events should be used without 'on', e.g. <code>window.addEventListener('load', ...)</code>
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h2>Example: target</h2>
+                <ul>
+                    <li>
+                        At any time during bubbling you can know which top element was clicked (even if it doesn't handle the event):
+                        <pre class="bigger"><code contenteditable class="language-javascript">...
+document.querySelector('body').addEventListener('click', function(e) {
+  console.log(e.target.tagName + ' clicked');
+});
+</code></pre>
+                        <div class="demolink"><a href="assets/08/examples/target.html" target='_blank'>demo</a></div>
+                    </li>
+                    <li>
+                        Say you have a table with 1000 cells; instead of binding 1000 events, thanks to bubbling it's possible to bind a single handler on the &lt;table&gt; itself, which saves memory.
+                        <pre class="bigger"><code contenteditable class="language-javascript overlayrun">const table = document.querySelector('#bubbling');
+table.addEventListener('click', function(e) {
+  console.log('click was on ' + e.target.innerHTML);
+});</code></pre>
+                        <table id="bubbling">
+                            <tbody><tr>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>5</td>
+                                <td>6</td>
+                            </tr>
+                            </tbody></table>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Example: mouse</h2>
+                <ul>
+                    <li>
+                        The <code>e</code> parameter of the event listener contains information of the event. An example for mouse events:
+                        <pre class="bigger"><code contenteditable class="language-html overlayrun">&lt;input type="button" id="btn1" value="Left or right click me"&gt;
+&lt;script&gt;
+document.getElementById('btn1').addEventListener('mousedown', function(e) {
+  const right = e.button &amp;&amp; e.button == 2;
+  console.log('You clicked ' + (right ? 'right' : 'left')
+    + ' on position (' + e.pageX + ',' + e.pageY + ')');
+});
+&lt;/script&gt;</code></pre>
+                    </li>
+                    <li>
+                        Browser incompatibility may occur. <!--Some cross-browser scripts can be found online on <a href="http://www.quirksmode.org/js/events_properties.html">quirksmode.org</a>  or use a <a href="http://api.jquery.com/category/events/">decent Javascript library</a>.-->
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Example: keyboard</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        An example for keyboard events:
+                        <pre class="bigger"><code contenteditable class="language-html overlayrun">&lt;p&gt;type something...&lt;/p&gt;
+&lt;input type="text" id="inp1" /&gt;
+&lt;script&gt;
+document.getElementById('inp1').addEventListener('keypress', function(e) {
+  console.log('You pressed ' + (e.shiftKey ? 'Shift-' : '')  + e.key + ', code ' + e.keyCode);
+});
+&lt;/script&gt;</code></pre>
+                    </li>
+                    <li>
+                        Browser incompatibility may occur. <!--Some cross-browser scripts can be found online on <a href="http://www.quirksmode.org/js/events_properties.html">quirksmode.org</a>  or use a <a href="http://api.jquery.com/category/events/">decent Javascript library</a>.-->
+                    </li>
+                </ul>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>08.5<br>Initializing scripts</h2>
+            </section>
+            <section>
+                <h2>The wrong way</h2>
+                <ul>
+                    <li>
+                        Beware that scripts are executed when loaded, even if the rest of the page is still loading. This won't work;
+                        <pre class="bigger"><code class="language-html overlayrun wrong">&lt;html&gt;
+&lt;head&gt;
+  &lt;script&gt;
+    document.getElementById('span1').innerHTML = 'hello there';
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  ...
+  &lt;span id="span1"&gt;&lt;/span&gt;
+  ...
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section data-toc-title="The better way">
+                <h2>The better way (1)</h2>
+                <ul>
+                    <li>
+                        Put your scripts at the bottom:
+                        <pre class="bigger"><code class="language-html overlayrun">&lt;html&gt;
+&lt;head&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  ...
+  &lt;span id="span1"&gt;&lt;/span&gt;
+  ...
+  &lt;script&gt;
+    document.getElementById('span1').innerHTML = 'hello there';
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+                    <li>
+                        Executes when HTML and CSS is loaded, but does not wait for images etc... to load
+                    </li>
+                </ul>
+            </section>
+            <section data-toc-title="">
+                <h2>The better way (2)</h2>
+                <ul style="width: 80%;">
+                    <li>
+                        A little cleaner with an external script:
+                        <pre class="bigger"><code class="language-html">&lt;html&gt;
+&lt;body&gt;
+  ...
+  &lt;span id="span1"&gt;&lt;/span&gt;
+  &lt;script src="js/pagescripts.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        <pre class="bigger"><code class="language-javascript">document.getElementById('span1').innerHTML = 'hello there';
+</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Window DOMContentLoaded event</h2>
+                <ul>
+                    <li>
+                        If you wish to start your scripts when the document has been parsed, use the window DOMContentLoaded event:
+                        <pre class="bigger"><code class="language-html">&lt;html&gt;
+&lt;body&gt;
+  ...
+  &lt;span id="span1"&gt;&lt;/span&gt;
+  &lt;script src="js/pagescripts.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        <pre class="bigger"><code class="language-javascript">window.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('span1').innerHTML = 'hello there';
+});</code></pre>
+                    </li>
+                </ul>
+                <footer><small>Don't use the <code>load</code> event: it is fired much later (when really <em>everything</em> has been loaded)</small></footer>
+            </section>
+            <section>
+                <h2>Script Encapsulation</h2>
+                <ul>
+                    <li>
+                        Script encapsulation with self invoking function (strict mode):
+                        <pre class="bigger"><code class="language-js right">;(function() {
+  'use strict';
+
+  // variables
+  let var1, var2, var3;
+
+  // function 1
+  const function1 = function() { ... };
+
+  // function 2
+  const function2 = function() { ... };
+
+  // start your engines!
+  window.addEventListener('DOMContentLoaded', function() {
+    // bind events here using functions and variables above
+    // ...
+  });
+})();</code></pre>
+                    </li>
+                </ul>
+                <ul class="arrow">
+                    <li>
+                        simple way to encapsulate your variables in strict mode
+                    </li>
+                    <li>
+                        we will use this one mostly during lab sessions
+                    </li>
+                </ul>
+                <div class="tooltip">
+                    <div>
+                        <p>
+                            Note the semicolon at the start: when scripts are compressed, they are often concatenated. Putting an extra semicolon prevents errors, should a previous script have forgotten a semicolon at the end.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <!--section>
+                <h2>Alternative: app pattern</h2>
+                <ul>
+                    <li>
+                        Alternative pattern with single application object (strict mode):
+                        <pre class="bigger"><code class="language-js">// global app object
+var app = {
+  // variables
+  var1: undefined,
+  var2: undefined,
+
+  // function 1
+  function1: function() { 'use strict'; ... },
+
+  // function 2
+  function2: function() { 'use strict'; ... },
+
+  // istart function
+  start: function() {
+    'use strict';
+    // bind events here using this.functions and this.variables above
+    // ...
+  }
+};
+
+// start the app
+app.start();</code></pre>
+                    </li>
+                </ul>
+                <ul class="arrow">
+                    <li>
+                        typical pattern for app-like pages
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Alternative: game pattern</h2>
+                <ul>
+                    <li>
+                        Alternative pattern with constructor (strict mode):
+                        <pre class="bigger"><code class="language-js">// global app object
+var Game = function(id, options) {
+  'use strict';
+
+  // variables
+  this.id = id;
+  this.options = options;
+
+  // function 1
+  this.function1 = function() { ... },
+
+  // function 2
+  this.function2 = function() { ... },
+
+  // start function
+  this.start = function() {
+    // bind events here using this.functions and this.variables above
+    // ...
+  }
+};
+
+// start the game
+var game = new Game('myGame', { difficulty: 3, theme: 'retrospace' })
+game.start();</code></pre>
+                    </li>
+                </ul>
+                <ul class="arrow">
+                    <li>
+                        typical pattern for games; multiple games can run simultaneously
+                    </li>
+                </ul>
+            </section-->
+        </section>
+        <section>
+            <section>
+                <h2>08.6<br>Demo &mdash; Mood selector</h2>
+                <img src="assets/08/ss2.png" alt="" style="margin: 0 auto; border: 2px solid #ccc; width: 400px" />
+            </section>
+            <section>
+                <h2>The HTML</h2>
+                <ul style="width: 80%;">
+                    <li>
+                        The HTML:
+                        <pre class="bigger"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Moodselector&lt;/title&gt;
+  &lt;meta charset="utf-8" /&gt;
+  &lt;script src="js/scripts.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;How 'r you feeling today?&lt;/h1&gt;
+  &lt;form id="testForm" action="#"&gt;
+    &lt;select name="lstMood" id="selMood"&gt;
+      &lt;option value="0"&gt;--unknown--&lt;/option&gt;
+      &lt;option value="1"&gt;darn bad&lt;/option&gt;
+      &lt;option value="2"&gt;bad&lt;/option&gt;
+      &lt;option value="3"&gt;neutral&lt;/option&gt;
+      &lt;option value="4"&gt;good&lt;/option&gt;
+      &lt;option value="5"&gt;jolly good&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;img src="img/mood0.gif" alt="mood icon" id="imgMood" /&gt;
+  &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Linking the script</h2>
+                <ul>
+                    <li>
+                        We'll write a simple mood selector, where selecting a value in the list changes the smiley next to it
+                    </li>
+                    <li>
+                        We link our scripts at the end of the body:
+                        <pre class="bigger"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Moodselectior&lt;/title&gt;
+  ...
+&lt;/head&gt;
+&lt;body&gt;
+  ...
+  &lt;script src="js/scripts.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>List change event</h2>
+                <ul>
+                    <li>
+                        In <code>scripts.js</code> we'll hook a function <code>setMood</code> on the change event of the list
+                        <pre class="bigger"><code class="language-javascript">;(function() {
+  'use strict';
+
+  // wait till DOM is loaded
+  window.addEventListener('DOMContentLoaded', function() {
+    // listen to select list changes
+    document.getElementById('lstMood').addEventListener('change', function() {
+      setMood(this.value);
+    });
+  });
+
+})();</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Adjusting the image</h2>
+                <ul style="width: 80%;">
+                    <li>
+                        The function <code>setMood</code> is quite simple:
+                        <pre class="bigger"><code class="language-javascript">//...
+const setMood = function(nr) {
+  // check boundaries
+  if (nr &lt; 0) nr = 0;
+  if (nr &gt; 5) nr = 5;
+
+  // adjust image
+  document.getElementById('imgMood').src = 'img/mood' + nr + '.gif';
+
+  //...
+}
+</code></pre>
+                        <div class="demolink"><a href="assets/08/examples/moodselection/index.html">demo</a></div>
+                    </li>
+                </ul>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>08.7<br>Demo &mdash; Slideshow</h2>
+                <img src="assets/08/ss3.png" alt="" style="margin: 0 auto; border: 2px solid #ccc; width: 500px" />
+            </section>
+            <section>
+                <h2>HTML only version</h2>
+                <ul>
+                    <li>
+                        We'll start from a HTML-only slideshow with a HTML file for each picture. The HTML for the first:
+                        <pre class="bigger"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Show photo | Slideshow&lt;/title&gt;
+  &lt;meta charset="utf-8" /&gt;
+  &lt;link rel="stylesheet" href="css/reset.css" /&gt;
+  &lt;link rel="stylesheet" href="css/main.css" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h2&gt;Bekijk foto's&lt;/h2&gt;
+  &lt;ul id="thumbsmenu"&gt;
+    &lt;li&gt;&lt;a href="photo1.html"&gt;&lt;img src="img/photo1S.jpg"
+      alt="photo 1" /&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="photo2.html"&gt;&lt;img src="img/photo2S.jpg"
+      alt="photo 2" /&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="photo3.html"&gt;&lt;img src="img/photo3S.jpg"
+      alt="photo 3" /&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="photo4.html"&gt;&lt;img src="img/photo4S.jpg"
+      alt="photo 4" /&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;p&gt;&lt;img src="img/photo1L.jpg" alt="photo 1" id="photoBig" /&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        <div class="demolink"><a href="assets/08/examples/slideshow/noscript/photo1.html">demo</a></div>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Linking the script</h2>
+                <ul>
+                    <li>
+                        Each time the user selects a new picture, a new page needs to be loaded. Let's improve the user experience with some Javascript.
+                    </li>
+                    <li>
+                        Again we link our script in the body:
+                        <pre class="bigger"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Slideshow&lt;/title&gt;
+  ...
+&lt;/head&gt;
+&lt;body&gt;
+  ...
+  &lt;script src="js/scripts.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Selecting all links</h2>
+                <ul style="width: 80%;">
+                    <li>
+                        In <code>scripts.js</code> we'll select all links with a query selector:
+                        <pre class="bigger"><code class="language-javascript">;(function() {
+  'use strict';
+
+  // wait till DOM is loaded
+  window.addEventListener('DOMContentLoaded', function() {
+      const imglinks = document.querySelectorAll('#thumbsmenu li>a');
+      for let i = 0; i &lt; imglinks.length; i++) {
+        imglinks[i].addEventListener('click', function(e) {
+          // find thumb image inside link
+          const img = this.querySelector('img');
+
+          // show large version
+          // ...
+        });
+  });
+
+})();
+
+</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Click events</h2>
+                <ul>
+                    <li>
+                        The rest isn't that complicated; I'm sure you can figure this out:
+                        <pre class="bigger"><code class="language-javascript">// shows large image when lnk has been clicked
+const showImage = function(lnk) {
+    // find thumb image
+    const img = lnk.querySelector('img');
+
+    // find big image
+    const photoBig = document.getElementById('photoBig');
+    photoBig.src = img.src.replace('S.jpg', 'L.jpg');
+    photoBig.alt = img.alt;
+}
+
+// start scripts
+window.addEventListener('DOMContentLoaded', function() {
+	const imglinks = document.querySelectorAll('#thumbsmenu li>a');
+	for (let i = 0; i < imglinks.length; i++) {
+        imglinks[i].addEventListener('click', function(e) {
+            // prevent default
+            e.preventDefault();
+
+            // show image
+            showImage(this);
+        });
+	}
+});
+
+</code></pre>
+                        <div class="demolink"><a href="assets/08/examples/slideshow/vs1/index.html">demo</a></div>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Custom attributes</h2>
+                <ul>
+                    <li>
+                        We can improve a little on the fexibility of our code by using a <a href="https://www.w3schools.com/tags/att_data-.asp">custom attribute</a> <code>data-src-l</code>:
+                        <pre class="bigger"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Show photo | Slideshow&lt;/title&gt;
+  &lt;meta charset="utf-8" /&gt;
+  &lt;link rel="stylesheet" href="css/reset.css" /&gt;
+  &lt;link rel="stylesheet" href="css/main.css" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h2&gt;Bekijk foto's&lt;/h2&gt;
+  &lt;ul id="thumbsmenu"&gt;
+    &lt;li&gt;&lt;a href="photo1.html"&gt;&lt;img data-src-l="img/photo1L.jpg"
+      src="img/photo1S.jpg" alt="photo 1" /&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="photo2.html"&gt;&lt;img data-src-l="img/photo2L.jpg"
+      src="img/photo2S.jpg" alt="photo 2" /&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="photo3.html"&gt;&lt;img data-src-l="img/photo3L.jpg"
+      src="img/photo3S.jpg" alt="photo 3" /&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="photo4.html"&gt;&lt;img data-src-l="img/photo4L.jpg"
+      src="img/photo4S.jpg" alt="photo 4" /&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;p&gt;&lt;img src="img/photo1L.jpg" alt="photo 1" id="photoBig" /&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section data-toc-title="">
+                <h2>Custom attributes</h2>
+                <ul>
+                    <li>
+                        Now the source for the large versions is given by the server, which is much cleaner than the ugly <code>...S.jpg</code> to <code>...L.jpg</code> replace trick
+                        <pre class="bigger"><code class="language-javascript">const showImage = function(lnk) {
+  ...
+  photoBig.src = img.getAttribute('data-src-l');
+  ...
+};
+</code></pre>
+                        <div class="demolink"><a href="assets/08/examples/slideshow/vs2/index.html">demo</a></div>
+                    </li>
+                </ul>
+            </section>
+        </section>
+        <!--section>
+            <section>
+                <h1>DOM</h1>
+                <h2>Demo &mdash; Formchecking</h2>
+                <ul class="chapterlist">
+
+                </ul>
+                <img src="assets/08/ss1.png" alt="" style="margin: 0 auto; border: 2px solid #ccc; width: 400px" />
+            </section>
+            <section>
+                <h2>The HTML</h2>
+                <ul>
+                    <li>
+                        Let's start with a classic HTML form:
+                        <pre class="bigger"><code class="language-html overlayrun">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Formchecking&lt;/title&gt;
+  &lt;meta charset=&quot;utf-8&quot; /&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;assets/08/examples/fs/fonts/lato/webfont.css&quot; /&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;assets/08/examples/fs/css/styles.css&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;form id=&quot;form1&quot;&gt;
+    &lt;h1&gt;Registratie&lt;/h1&gt;
+    &lt;fieldset&gt;
+      &lt;legend&gt;Adresgegevens&lt;/legend&gt;
+      &lt;div class=&quot;qstn&quot;&gt;
+        &lt;label for=&quot;qstStreet&quot;&gt;Straat en nummer *&lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;qstStreet&quot; value=&quot;&quot; required /&gt;
+        &lt;span class=&quot;message message--error&quot; id=&quot;errStreet&quot;&gt;&amp;nbsp;&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;qstn&quot;&gt;
+        &lt;label for=&quot;qstZip&quot;&gt;Postcode *&lt;/label&gt;
+        &lt;input type=&quot;number&quot; id=&quot;qstZip&quot; value=&quot;&quot; class=&quot;input--half&quot; required /&gt;
+        &lt;span class=&quot;message message--error&quot; id=&quot;errZip&quot;&gt;&amp;nbsp;&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;qstn&quot;&gt;
+        &lt;label for=&quot;qstCity&quot;&gt;Gemeente *&lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;qstCity&quot; value=&quot;&quot; required /&gt;
+        &lt;span class=&quot;message message--error&quot; id=&quot;errCity&quot;&gt;&amp;nbsp;&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/fieldset&gt;
+    &lt;div class=&quot;buttons clearfix&quot;&gt;
+      &lt;input type=&quot;submit&quot; id=&quot;btnSubmit&quot; value=&quot;Registreren&quot; /&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>What to check</h2>
+                <ul>
+                    <li>
+                        Note that basic HTML5 validation is already in place
+                    </li>
+                    <li>
+                        Watertight form validation should happen serverside; clientside formchecking just adds a nicer experience
+                    </li>
+                    <li>
+                        Don't make clientside tests rediculously paranoia and detailed
+                    </li>
+                    <li>
+                        We'll basically test:
+                        <ul class="v-style">
+                            <li>are all fieds filled?</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Linking the script</h2>
+                <ul>
+                    <li>
+                        We link our scripts at the end of the body:
+                        <pre class="bigger"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Formchecking demo&lt;/title&gt;
+  ...
+&lt;/head&gt;
+&lt;body&gt;
+  ...
+  &lt;script src="js/scripts.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Disabling HTML5 validation</h2>
+                <ul>
+                    <li>
+                        We'll start form our basic script, and disable HTML5 form validation:
+                        <pre class="bigger"><code class="language-javascript">;(function() {
+  'use strict';
+
+  // wait till DOM is loaded
+  window.addEventListener('load', function() {
+    // disable HTML5 form validation
+    document.getElementById('form1').setAttribute('novalidate', 'novalidate');
+
+    // formchecking starts here
+    // ...
+  });
+})();
+</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Intercepting the form</h2>
+                <ul>
+                    <li>
+                        We'll intercept the form using the <code>submit</code> event; the basic validation scheme:
+                        <pre class="bigger"><code class="language-javascript">    //...
+
+    // listen to form submit
+    document.getElementById('form1').addEventListener('submit', function(e) {
+      // halt event
+      e.preventDefault();
+      e.stopPropagation();
+
+      // all ok for now
+      var isValid = true;
+
+      // perform checks here
+      // ...
+
+      // draw conclusion
+      if (isValid) {
+        console.log('all ok');
+      } else {
+        console.log('form contains errors');
+      }
+    });
+
+    //...
+</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Checking the form</h2>
+                <ul>
+                    <li>
+                        Validating the first input:
+                        <pre class="bigger"><code class="language-javascript">      // ...
+
+      // error message shorthand
+      var errStreet = document.getElementById('errStreet');
+
+      // input shorthand
+      var qstStreet = document.getElementById('qstStreet');
+
+      // hide error message
+      errStreet.style.display = 'none';
+
+      // check street and number
+      if (qstStreet.value == '') {
+        isValid = false;
+        errStreet.innerHTML = 'gelieve een straat en nummer in te vullen';
+        errStreet.style.display = 'block';
+      }
+
+      // ...</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Full listing</h2>
+                <ul>
+                    <li>
+                        The full script:
+                        <pre class="bigger"><code class="language-javascript">;(function() {
+  'use strict';
+
+  // wait till DOM is loaded
+  window.addEventListener('load', function() {
+    // disable HTML5 form validation
+    document.getElementById('form1').setAttribute('novalidate', 'novalidate');
+
+    // intercept document submit
+    document.getElementById('form1').addEventListener('submit', function(e) {
+      // halt event
+      e.preventDefault();
+      e.stopPropagation();
+
+      // form checking
+      var allOk = true;
+
+      // error messages shortcuts
+      var errStreet = document.getElementById('errStreet');
+      var errZip = document.getElementById('errZip');
+      var errCity = document.getElementById('errCity');
+
+      // input shortcuts
+      var qstStreet = document.getElementById('qstStreet');
+      var qstZip = document.getElementById('qstZip');
+      var qstCity = document.getElementById('qstCity');
+
+      // hide all error messages
+      var errMessages = document.querySelectorAll('.message--error');
+      for (var i = 0; i < errMessages.length; i++) {
+        errMessages[i].style.display = 'none';
+      }
+
+      // check street and number
+      if (qstStreet.value == '') {
+        allOk = false;
+        errStreet.innerHTML = 'gelieve een straat en nummer in te vullen';
+        errStreet.style.display = 'block';
+      }
+
+      // check zip
+      if (qstZip.value == '') {
+        allOk = false;
+        errZip.innerHTML = 'gelieve een postcode in te vullen';
+        errZip.style.display = 'block';
+      }
+
+      // check city
+      if (qstCity.value == '') {
+        allOk = false;
+        errCity.innerHTML = 'gelieve een gemeente in te vullen';
+        errCity.style.display = 'block';
+      }
+
+      // draw conclusion
+      if (allOk) {
+        console.log('all ok');
+      } else {
+        console.log('form contains errors');
+      }
+
+    });
+  });
+
+})();</code></pre>
+                        <div class="demolink"><a href="assets/08/examples/fs/index.html">demo</a></div>
+                    </li>
+                </ul>
+            </section>
+        </section-->
+
+
+        <!-- The END -->
+        <section>
+            <section>
+                <h2>Questions?</h2>
+                <footer>
+                    <em><a href="http://www.ikdoeict.be/">ikdoeict.be</a> &mdash; <a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+                </footer>
+            </section>
+        </section>
+
+
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+<script src="toc.js"></script>
+<script>
+    function Incrementable(textField, modifiers, units, options) {
+        var me = this;
+        this.textField = textField;
+        this.step = +textField.getAttribute('step') || +textField.getAttribute('data-step') || 1;
+        modifiers = modifiers || {};
+        this.modifiers = {
+            ctrlKey: modifiers.ctrlKey || 0,
+            altKey: modifiers.altKey || 0,
+            shiftKey: modifiers.shiftKey || 0
+        };
+
+        if (units) {
+            this.units = units;
+        }
+
+        this.changed = false;
+
+        this.textField.addEventListener('keydown', function(evt) {
+            if(me.checkModifiers(evt) && (evt.keyCode == 38 || evt.keyCode == 40)) {
+                me.changed = false;
+
+                // Up or down arrow pressed, check if there's something
+                // increment/decrement-able where the caret is
+                var caret = this.selectionStart || me.getCharacterOffsetWithin(window.getSelection().getRangeAt(0), this), text = this.value || me.stripHTML(this.innerHTML),
+                    regex = new RegExp('^([\\s\\S]{0,' + caret + '}[^-0-9\\.])(-?[0-9]*(?:\\.?[0-9]+)(?:' + me.units + '))\\b', 'i');
+
+                if(/^(input|textarea)$/i.test(this.nodeName)) {
+                    this.value = this.value.replace(regex, function($0, $1, $2) {
+                        if($1.length <= caret && $1.length + $2.length >= caret) {
+                            me.changed = true;
+                            return $1 + me.stepValue($2, evt.keyCode == 40, evt.shiftKey);
+                        }
+                        else {
+                            return $1 + $2;
+                        }
+                    });
+                } else {
+                    this.innerHTML = this.innerHTML.replace(/<br>/gm, "\r\n").replace(/<br\/>/gm, "\r\n").replace(/<br \/>/gm, "\r\n").replace(/<div>/gm, "\r\n").replace(/<\/div>/gm, "");
+                    this.innerHTML = me.stripHTML(this.innerHTML).replace(regex, function($0, $1, $2) {
+                        if($1.length <= caret && $1.length + $2.length >= caret) {
+                            me.changed = true;
+                            return $1 + me.stepValue($2, evt.keyCode == 40, evt.shiftKey);
+                        }
+                        else {
+                            return $1 + $2;
+                        }
+                    }).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                }
+
+                if(me.changed) {
+                    if(/^(input|textarea)$/i.test(me.textField.nodeName)) {
+                        this.selectionEnd = this.selectionStart = caret;
+                    } else {
+                        var range = document.createRange();
+                        var sel = window.getSelection();
+                        range.setStart(me.textField.childNodes[0], caret);
+                        // range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                        // el.focus();
+                    }
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                }
+            }
+        }, false);
+
+        this.textField.addEventListener('keypress', function(evt) {
+            if(me.changed && me.checkModifiers(evt)
+                && (evt.keyCode == 38 || evt.keyCode == 40))
+                evt.preventDefault();
+            evt.stopPropagation();
+            me.changed = false;
+        }, false);
+    }
+
+    Incrementable.prototype = {
+        checkModifiers: function(evt) {
+            var m = this.modifiers;
+
+            return m.ctrlKey * evt.ctrlKey + m.altKey * evt.altKey + m.shiftKey * evt.shiftKey >= 3
+                || (m.ctrlKey + m.altKey + m.shiftKey == 0);
+        },
+
+        /**
+         * Gets a <length> and increments or decrements it
+         */
+        stepValue: function(length, decrement, byChunk) {
+            var val = parseFloat(length) + (decrement? -1 : 1) * (byChunk? 10 : 1) * this.step;
+
+            // Prevent rounding errors
+            if(this.step % 1) {
+                val = (parseFloat(val.toPrecision(12)));
+            }
+
+            return val + length.replace(/^-|[0-9]+|\./g, '');
+        },
+
+        stripHTML : function(html) {
+            var tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            return tmp.textContent||tmp.innerText;
+        },
+
+        getCharacterOffsetWithin : function(range, node) {
+            var treeWalker = document.createTreeWalker(
+                node,
+                NodeFilter.SHOW_TEXT,
+                function(node) {
+                    var nodeRange = document.createRange();
+                    nodeRange.selectNodeContents(node);
+                    return nodeRange.compareBoundaryPoints(Range.END_TO_END, range) < 1 ?
+                        NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+                },
+                false
+            );
+
+            var charCount = 0;
+            while (treeWalker.nextNode()) {
+                charCount += treeWalker.currentNode.length;
+            }
+            if (range.startContainer.nodeType == 3) {
+                charCount += range.startOffset;
+            }
+            return charCount;
+        },
+
+        units: '|%|deg|px|r?em|ex|ch|in|cm|mm|pt|pc|vm|vw|vh|gd|m?s'
+    };
+    window.addEventListener('load', function()
+    {
+        /**
+         *
+         * Javascript blocks: add run buttons + make incrementable (
+         *
+         * To use add class 'overlayrun' to the code container
+         *
+         */
+
+        var jsBlocks = document.querySelectorAll('code.language-javascript');
+        for(var i = 0, len = jsBlocks.length; i < len ; i++)
+        {
+
+            // Local reference
+            var jsBlock = jsBlocks[i];
+
+            // may we add the run button to it?
+            if(!jsBlock.className.match(new RegExp('(\\s|^)overlayrun(\\s|$)'))) continue;
+
+            // Add Run button
+            var button = document.createElement('input');
+            button.type = 'submit';
+            button.value = 'Run';
+            button.className = 'run';
+            var strUseStrict = jsBlock.className.match(new RegExp('(\\s|^)strict(\\s|$)')) ? "'use strict'; " : "";
+            button.addEventListener('click', function()
+            {
+                eval(strUseStrict + stripHTML(this.parentNode.querySelector('code').innerHTML)); // Yeah, that's effin' dangerous!
+            });
+            jsBlock.parentNode.appendChild(button);
+
+            // Hook ctrl+enter to run the code
+            jsBlock.addEventListener('keypress', function(evt)
+            {
+                if(evt.ctrlKey && (evt.keyCode == 13))
+                {
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    eval(stripHTML(this.innerHTML));
+                }
+            }, false);
+
+            // Make Incrementable
+            new Incrementable(jsBlock);
+
+        }
+
+        /**
+         *
+         * HTML blocks
+         *
+         * Add Show in Overlay Button to HTML Blocks
+         *
+         * To use add class 'overlayrun' to the code container
+         *
+         */
+
+        var htmlBlocks = document.querySelectorAll('code.language-html');
+        for(var i = 0, len = htmlBlocks.length; i < len ; i++)
+        {
+
+            // Local reference
+            var htmlBlock = htmlBlocks[i];
+
+            // may we add the run button to it?
+            if(!htmlBlock.className.match(new RegExp('(\\s|^)overlayrun(\\s|$)'))) continue;
+
+            // Add Run button
+            var button = document.createElement('input');
+            button.type = 'submit';
+            button.value = 'Show in overlay';
+            button.className = 'run';
+            button.addEventListener('click', function()
+            {
+                var codeBlock = this.parentNode.querySelector('code');
+                showInOverlay(codeBlock, htmlentities(stripHTML(codeBlock.innerHTML)));
+            });
+            htmlBlock.parentNode.appendChild(button);
+
+            // Hook ctrl+enter to run the code
+            htmlBlock.addEventListener('keypress', function(evt)
+            {
+                if(evt.ctrlKey && (evt.keyCode == 13))
+                {
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    showInOverlay(this, this.innerHTML);
+                }
+            }, false);
+
+        }
+
+        // show a blob of HTML inside an overlay
+        var showInOverlay = function(codeBlock, html, url)
+        {
+            codeBlock.blur();
+
+            var height = parseInt(codeBlock.getAttribute('data-overlay-height') || 460, 10);
+            var width = parseInt(codeBlock.getAttribute('data-overlay-width') || 680, 10);
+            var url = url || 'assets/blank.html';
+
+            // Make sure overlay UI elements are present
+            if(!document.getElementById('overlayBack'))
+            {
+                var overlayBack = document.createElement('div');
+                overlayBack.id = "overlayBack";
+                overlayBack.addEventListener('click', function(e)
+                {
+                    e.stopPropagation();
+
+                    // erase contents (to prevent movies from playing int he back for example)
+                    document.getElementById('daframe').src= 'assets/blank.html';
+
+                    // hide
+                    document.getElementById('overlayBack').style.display = 'none';
+                    document.getElementById('overlayContent').style.display = 'none';
+                });
+                document.body.appendChild(overlayBack);
+            }
+
+            if(!document.getElementById('overlayContent'))
+            {
+                var overlayContent = document.createElement('div');
+                overlayContent.id = "overlayContent";
+                document.body.appendChild(overlayContent);
+            }
+
+            // reference elements we'll be needing
+            var ob = document.getElementById('overlayBack');
+            var oc = document.getElementById('overlayContent');
+
+            // Position oc
+            oc.style.width = width + 'px';
+            oc.style.height = height + 'px';
+            oc.style.marginTop = '-' + (height/2) + 'px';
+            oc.style.marginLeft = '-' + (width/2) + 'px';
+
+            // inject iframe
+            oc.innerHTML = '<iframe src="' + url + '" height="' + height + '" width="' + width + '" border="0" id="daframe"></iframe>';
+
+            // inject HTML
+            if(html)
+            {
+                var oIframe = document.getElementById('daframe');
+                var oDoc = (oIframe.contentWindow || oIframe.contentDocument);
+                if(oDoc.document) oDoc = oDoc.document;
+                oDoc.write(html_entity_decode(html));
+            }
+
+            // Show me the money!
+            ob.style.display = 'block';
+            oc.style.display = 'block';
+
+        }
+        /**
+         *
+         * Helper functions
+         *
+         */
+
+        // Helper Function to strip HTML from a string
+        function stripHTML(html)
+        {
+            var tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            toReturn = tmp.textContent || tmp.innerText;
+            tmp = null;
+            return toReturn;
+        }
+
+        // Helper Function for htmlentities encode
+        function htmlentities(str)
+        {
+            var div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML.replace(/"/g, '"').replace(/'/g, '\'');
+        }
+
+        // Helper Function for htmlentities decode
+        function html_entity_decode(str)
+        {
+            var tmp = document.createElement('textarea');
+            tmp.innerHTML = str.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+            toReturn = tmp.value;
+            tmp = null;
+            return toReturn;
+        }
+
+    });
+
+
+</script>
+</body>
+</html>
