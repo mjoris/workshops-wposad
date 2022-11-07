@@ -10,6 +10,18 @@ services:
       - "./docker-php/php.ini:/usr/local/etc/php/php.ini"
     links:
       - mysqldb
+  nodejs:
+    image: node:19
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    command: bash -c "npm install && npm start"
+    working_dir: "/usr/src/app"
+    volumes:
+      - "./app/public/assets/11/app:/usr/src/app"
+      - "/usr/src/app/node_modules"
+    links:
+      - mysqldb
   mysqldb:
     image: mysql:8.0
     restart: always
@@ -20,6 +32,7 @@ services:
      - "./mysql-sql/demo.sql:/docker-entrypoint-initdb.d/dump.sql"
     environment:
      - MYSQL_ROOT_PASSWORD=Azerty123
+     - LANG=C.UTF-8
   myadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
