@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>WPoSaD – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section data-background="#4d7e65">
+            <h3>Web Programming on Servers and Devices <small>[OGI03<span style="text-transform: lowercase;">v</span>]</small></h3>
+            <h1>11. node.js</h1>
+        </section>
+
+
+        <section>
+
+            <section>
+                <h2>11.1<br>node.js Introduction Course</h2>
+            </section>
+
+
+
+
+            <section data-background="#fdfdfd">
+                <h2>Let's explore</h2>
+                <ul>
+                    <li>A <a href="assets/11/NodeJsExpressJs1-wposad.pdf">selection of Yves Blancquaert's course slides</a> (in Dutch) on node.js and express</li>
+                </ul>
+                <p>
+                    <figure>
+                        <a href="assets/11/NodeJsExpressJs1-wposad.pdf">
+                            <img src="assets/11/yb-node.png" alt="course on node.js and express" title="course on node.js and express" height="300"  />
+                        </a>
+                    </figure>
+                </p>
+            </section>
+
+        </section>
+
+
+        <section>
+            <section>
+                <h2>11.2<br>node.js on Docker</h2>
+            </section>
+
+            <section style="font-size: 90%;">
+                <h2>Integrating node.js as a server (1)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        add the following to your <code>docker-compose.yml</code>
+
+                    </li>
+                </ul>
+                <pre class="bigger"><code class="hljs yml">  nodejs:
+    image: node:19
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    command: bash -c "npm install && npm start"
+    working_dir: "/usr/src/app"
+    volumes:
+      - "./app/public/assets/11/app:/usr/src/app"
+      - "/usr/src/app/node_modules"
+    links:
+      - mysqldb</code></pre>
+                <ul style="width: 100%;">
+                    <li></li>
+                    <li>
+                        <code>npm install && npm start</code> will both look for a file <code>package.json</code> in <code>app</code>
+
+                    </li>
+
+                </ul>
+
+            </section>
+
+            <section style="font-size: 90%;">
+                <h2>Integrating node.js as a server (2)</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        <code>npm install && npm start</code> will both look for a file <code>package.json</code> in <code>app</code>:
+                        <pre class="bigger"><code class="hljs json">{
+  "scripts": {
+    "start": "nodemon -L index.js"
+  },
+  "dependencies": {
+    "nodemon": "^2.0"
+  }
+}</code></pre>
+                        <ul>
+                            <li>
+                                If <code>package-lock.json</code> not present, <code>npm install</code> will install all required packages in <code>node_modules</code>
+                                (and write the installation config in <code>package-lock.json</code>)
+                            </li>
+                            <li>
+                                <code>npm start</code> will start <code>nodemon</code>. When you change your scripts, <code>nodemon</code> will reload your scripts.
+                                (<code>node</code> won't.)
+                            </li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+
+
+            </section>
+
+            <section style="font-size: 90%;">
+                <h2>How to use the server?</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        Put some <strong>server</strong> code in <code>index.js</code> that listens on port <code>3000</code>
+                        <pre class="bigger"><code class="hljs" data-overlay-example="http://localhost:3000/">const http = require('http');
+
+http.createServer(function (req, res) {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Hello World!');
+}).listen(3000);</code></pre>
+
+                    </li>
+                    <li>Test it on <a href="http://localhost:3000/" target="_blank">http://localhost:3000/</a></li>
+                    <li>When you change any of the project files <code>nodemon</code> will restart the script</li>
+
+                </ul>
+            </section>
+
+            <section style="font-size: 90%;">
+                <h2>How to install (new) packages on the server?</h2>
+
+                <pre class="bigger"><code class="hljs bash">$ docker compose exec nodejs bash
+root@2ea4b87aba3a:/usr/src/app# npm install express
+
+added 62 packages, and audited 95 packages in 3s
+</code></pre>
+
+                <p>
+                    &longrightarrow; dependency added to <code>package.json</code>
+                    <br>&longrightarrow; packages installed in <code>node_modules</code>*
+                    <br>&longrightarrow; new config logged to <code>package-lock.json</code>
+                </p>
+                <footer>
+                    <small>
+                        * you do not need to share <code>node_modules</code> with others (git),
+                        because the docker env runs <code>npm install</code> each time the container is started
+                    </small>
+                </footer>
+
+            </section>
+
+            <section style="font-size: 90%;">
+                <h2>How to run node directly?</h2>
+
+                <ul style="width: 80%;">
+                    <li>
+                        From the container:
+                        <pre class="bigger"><code class="hljs bash">$ docker compose exec nodejs bash
+root@2ea4b87aba3a:/usr/src/app# node
+Welcome to Node.js v19.0.0.
+Type ".help" for more information.
+> let a = 5;
+undefined
+> .exit
+
+root@2ea4b87aba3a:/usr/src/app# node hello.js
+hello</code></pre>
+
+                    </li>
+                    <li>
+                        From your host's Terminal:
+                        <pre class="bigger"><code class="hljs bash">$ docker compose exec nodejs node
+Welcome to Node.js v19.0.0.
+Type ".help" for more information.
+> let a = 5;
+undefined
+> .exit
+
+$ docker compose exec nodejs node hello.js
+hello</code></pre>
+
+                    </li>
+                </ul>
+
+            </section>
+
+            <section style="font-size: 90%;">
+                <h2>Some Web API example to start from</h2>
+
+                <pre class="bigger"><code class="hljs" data-overlay-example="http://localhost:9229/products">const express = require('express');
+const mysql = require('mysql2'); // this version works with MySQL 8 (caching_sha2_password)
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const app = express();
+const port = v;
+
+// used to read the request body req.*
+app.use(bodyParser.json());
+
+// adds the HTTP header: Access-Control-Allow-Origin: *
+// indicating that API requests from any other domain are allowed
+app.use(cors());
+
+const connection = mysql.createConnection({
+    host: 'mysqldb',
+    user: 'root',
+    password: 'Azerty123',
+    database: 'demo-webapi',
+    charset : 'utf8mb4'
+});
+
+connection.connect();
+
+
+// get all products from the database
+app.get('/products', function (req, res) {
+    connection.query('SELECT * FROM products', function (err, rows, fields) {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
+        else {
+            res.status(200).json({
+                products: rows
+            });
+        }
+    });
+});
+
+// make sure to run the app with `node index.js` command
+app.listen(port, function() {
+    console.log(`Example app listening on port ${port}!`)
+});</code></pre>
+
+
+            </section>
+
+        </section>
+
+        <!-- The END -->
+        <section>
+            <section>
+                <h2>Questions?</h2>
+                <footer>
+                    <em><a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+                </footer>
+            </section>
+        </section>
+
+
+
+
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+<script src="toc.js"></script>
+<script src="overlay.js"></script>
+
+</body>
+</html>
