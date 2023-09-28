@@ -11,7 +11,7 @@ services:
     links:
       - mysqldb
   nodejs:
-    image: node:19
+    image: node:20
     ports:
       - "3000:3000"
       - "9229:9229"
