@@ -242,7 +242,7 @@
 </code></pre>
 
 
-                <footer><small><em>(password included in exception message)</em></small></footer>
+                <footer><small><em>(DB host and DB name included in exception message)</em></small></footer>
             </section>
 
             <section>
@@ -703,7 +703,7 @@ $stmt->execute();</code></pre>
                     <li>
                         Also possible <em>(shorter, preferred)</em>:
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/04d.php">$stmt = $db->prepare('SELECT * FROM collections WHERE id = ?');
-$stmt->execute(array($id));</code></pre>
+$stmt->execute([$id]);</code></pre>
                         <ul>
                             <li>Cannot be used with named placeholders</li>
                         </ul>
@@ -711,7 +711,7 @@ $stmt->execute(array($id));</code></pre>
                     <li style="margin-top: 1em;">
                         No matter what type of query is, the call is always <code>PDOStatement::execute()</code><small><a href="http://www.php.net/manual/en/pdostatement.execute.php">&#9873;</a></small>
                         <pre class="bigger"><code class="hljs php">$stmt = $db->prepare('INSERT INTO collections (name, user_id) VALUES (?, ?)');
-$stmt->execute(array('bramus-test', 4));</code></pre>
+$stmt->execute(['bramus-test', 4]);</code></pre>
                     </li>
                 </ul>
             </section>
@@ -768,13 +768,14 @@ $stmt->execute(array('bramus-test', 4));</code></pre>
                 </ul>
                 <div>
 							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/05.php">$stmt =$db->prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
-$stmt->execute(array(2, 'russia'));
+$stmt->execute([2, 'russia']);
 $collections = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 echo '&lt;pre&gt;';
 var_dump($collections);
 echo '&lt;/pre&gt;';</code></pre>
                 </div>
+                <br>
                 <div>
                     <pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/05b.php">$collections = $stmt->fetchAll(PDO::FETCH_OBJ);</code></pre>
                 </div>
@@ -787,7 +788,7 @@ echo '&lt;/pre&gt;';</code></pre>
                         Use <code>PDOStatement::fetch()</code><small><a href="http://www.php.net/manual/en/pdostatement.fetch.php">&#9873;</a></small> to fetch the returned rows one bye one
                         <div>
 									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/05c.php">$stmt =$db->prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
-$stmt->execute(array(2, 'russia'));
+$stmt->execute([2, 'russia']);
 
 while ($collection = $stmt->fetch(PDO::FETCH_ASSOC)) {
     var_dump($collection);
@@ -797,7 +798,7 @@ while ($collection = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     <li style="margin-top: 1em;">
                         Use case: queries that yield one row
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/05d.php">$stmt = $db->prepare('SELECT * FROM collections WHERE id = ?');
-$stmt->execute(array(1));
+$stmt->execute([1]);
 
 $collection = $stmt->fetch(PDO::FETCH_ASSOC);
 var_dump($collection);</code></pre>
@@ -812,7 +813,7 @@ var_dump($collection);</code></pre>
                         Use <code>PDOStatement::fetchColumn()</code><small><a href="http://www.php.net/manual/en/pdostatement.fetchColumn.php">&#9873;</a></small> to fetch the value of a column from the first row
                         <div>
 									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/05e.php">$stmt = $db->prepare('SELECT name, user_id FROM collections WHERE id = ?');
-$stmt->execute(array(1));
+$stmt->execute([1]);
 var_dump($stmt->fetchColumn());</code></pre>
                         </div>
                     </li>
@@ -820,7 +821,7 @@ var_dump($stmt->fetchColumn());</code></pre>
                         Use an index to define which column you want
                         <div>
 									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/05f.php">$stmt = $db->prepare('SELECT name, user_id FROM collections WHERE id = ?');
-$stmt->execute(array(1));
+$stmt->execute([1]);
 var_dump($stmt->fetchColumn(1));</code></pre>
                         </div>
                     </li>
@@ -833,14 +834,14 @@ var_dump($stmt->fetchColumn(1));</code></pre>
                     <li>
                         Use <code>PDO::lastInsertId()</code><small><a href="http://www.php.net/manual/en/pdo.lastinsertid.php">&#9873;</a></small> to know the last inserted id (<code>AUTO_INCREMENT</code>) after executing an <code>INSERT</code> query
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/06.php">$stmt = $db->prepare('INSERT INTO collections(name, user_id) VALUES (?,?)');
-$stmt->execute(array('Trip to Amsterdam', 10));
+$stmt->execute(['Trip to Amsterdam', 10]);
 
 echo 'Created album with ID ' . $db->lastInsertId();</code></pre>
                     </li>
                     <li style="margin-top: 1em">
                         Use <code>PDOStatement::rowCount()</code><small><a href="http://www.php.net/manual/en/pdostatement.rowcount.php">&#9873;</a></small> to know the number of affected rows made by <code>UPDATE</code> and <code>DELETE</code> queries
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/07.php">$stmt = $db->prepare('DELETE FROM collections WHERE user_id = ?');
-$stmt->execute(array(10));
+$stmt->execute([10]);
 
 echo 'Deleted ' . $stmt->rowCount() . ' rows';</code></pre>
                         <ul>
@@ -1083,7 +1084,7 @@ DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;</code></pre>
                     <li style="margin-top: 1em;">
                         Don't be too specific when retrieving items after/before a given date. Bad example:
                         <pre class="bigger"><code class="hljs php">$stmt = $db->prepare('SELECT * FROM blogposts WHERE publish_date > ?');
-$stmt->execute(array((new DateTime())->format('Y-m-d H:i:s')));</code></pre>
+$stmt->execute([(new DateTime())->format('Y-m-d H:i:s')]);</code></pre>
                         <ul>
                             <li>MySQL Query Cache won't cache this</li>
                             <li>Fix: Round your dates to the minute or 5 minutes if the script allows it</li>
@@ -1122,16 +1123,16 @@ $stmt->execute(array((new DateTime())->format('Y-m-d H:i:s')));</code></pre>
                         <pre class="bigger"><code class="hljs php">$id = (int) isset($_GET['id']) ? $_GET['id'] : 0;
 
 $stmt = $db->prepare('SELECT id, title, content FROM blogs WHERE id = ?');
-$stmt->execute(array($id));
+$stmt->execute([$id]);
 $blogpost = $stmt->fetch(PDO::FETCH_ASSOC);
 
 $stmt = $db->prepare('SELECT id, blog_id, comment, publishdate, author_id FROM comments WHERE blog_id = ?');
-$stmt->execute(array($id));
+$stmt->execute([$id]);
 $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($comments as $c) {
     $stmt = $db->prepare('SELECT * FROM authors WHERE id = ?');
-    $stmt->execute(array($c['author_id']));
+    $stmt->execute([$c['author_id']]);
     $author = $stmt->fetch(PDO::FETCH_ASSOC);
 
 	// &hellip; show comment + author info
@@ -1157,13 +1158,13 @@ foreach ($comments as $c) {
                         <pre class="bigger"><code class="hljs php">$id = (int) isset($_GET['id']) ? $_GET['id'] : 0;
 
 $stmt = $db->prepare('SELECT id, title, content FROM blogs WHERE id = ?');
-$stmt->execute(array($id));
+$stmt->execute([$id]);
 $blogpost = $stmt->fetch(PDO::FETCH_ASSOC);
 
 $stmt = $db->prepare('SELECT c.id, c.blog_id, c.comment, c.publishdate, c.author_id,
                              a.name, a.email, a.url FROM comments AS c
 				      INNER JOIN authors AS a ON c.author_id = a.id WHERE c.blog_id = ?');
-$stmt->execute(array($id));
+$stmt->execute([$id]);
 $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($comments as $c) {
@@ -1233,6 +1234,279 @@ if (password_verify($pass, $encrypted)) { &hellip; }</code></pre>
                 </ul>
                 <footer style="line-height: 1;">PHP&ge;7.3: full support for the even safer Argon2 algorithm<br/><code>echo password_hash('bramus', PASSWORD_ARGON2ID);</code></footer>
             </section>
+
+        </section>
+
+        <section>
+
+            <section>
+                <h2>06.7<br>What's more in PHP?</h2>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Managing Libraries with Composer</h2>
+
+                <div class="columns clearfix">
+                    <div class="column column-13">
+                        <figure><img src="assets/06/logo-composer-transparent.png" width="200" class="noborder" title="Composer" /></figure>
+                    </div>
+                    <div class="column column-23" style="width: 66.666666%">
+                        <blockquote style="width: 100%; margin-top: 1em;">Composer is a tool for dependency management in PHP. It allows you to declare the dependent libraries your project needs and it will install them in your project for you.</blockquote>
+                    </div>
+                </div>
+
+                <ul>
+                    <li>
+                        Roughly translated: this tool will save you lots of headaches
+                        <ul>
+                            <li>Just tell composer which package and which version <em>(specific, or &ldquo;the latest&rdquo;)</em> of a library you need and it will install/update it for you</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Packagist</h2>
+                <ul>
+                    <li>
+                        Composer is worthless without <a href="https://packagist.org/">Packagist</a>:
+                        <ul style="font-size: 75%">
+                            <li>Composer = command line tool which downloads and installs the packages</li>
+                            <li>Packagist = website aggregating all installable packages and their versions</li>
+                        </ul>
+                        <div style="text-align: center;">
+                            <figure><img src="assets/06/packagist-2018.png" alt="" title="" width="580" class="noborder" /></figure>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Composer: quick reference</h2>
+                <ul style="font-size: 85%;">
+                    <li>Find interesting package on Packagist</li>
+                    <li>
+                        Run <code>composer require vendor/package version</code> on the CLI
+                        <ul>
+                            <li>e.g. <code>$ composer require intervention/image 2.*</code></li>
+                            <li>Installed: <code>composer.json</code> will contain this package requirement</li>
+                            <li>Installed: <code>composer.lock</code> = list of the exact versions installed + dependency hierarchy</li>
+                            <li>Installed: <code>vendor</code> folder containing all installed libraries</li>
+                            <li>You don't put <code>vendor</code> on git (<code>.gitignore</code> end you don't edit vendor</li>
+                        </ul>
+                    </li>
+                    <li>
+                        In your code, only include Composer's autoloader to enable any of the installed libraries:
+                        <pre class="bigger"><code class="hljs php">require_once __DIR__ . '/vendor/autoload.php';</code></pre>
+                    </li>
+                    <li>
+                        Run <code>composer install</code> if you only have <code>composer.json</code> and <code>composer.lock</code>
+                        <ul>
+                            When running <code>composer install</code> it will look for <code>composer.lock</code>.<br />If not found, it will fall back to <code>composer.json</code>.
+                        </ul>
+                    </li>
+
+                </ul>
+            </section>
+
+
+            <section data-background="#fdfdfd">
+                <h2>Templating with Twig</h2>
+                <p><img src="assets/06/splash-twig.jpg" width="300" alt="" /></p>
+                <ul>
+                    <li>
+                        Templating
+                        <ul>
+                            <li>Separating PHP logic and HTML</li>
+                            <li>HTML in separate files called <em>templates</em></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Twig = PHP Templating Library
+                        <ul>
+                            <li>= Set of classes to working with templates</li>
+                            <li>Website: <a href="https://twig.symfony.com/">https://twig.symfony.com/</a></li>
+                            <li>Documentation: <a href="https://twig.symfony.com/doc/3.x/">https://twig.symfony.com/doc/3.x/</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Installing Twig</h2>
+                <ul>
+                    <li>
+                        Installation:
+                        <ul>
+                            <li>
+                                New project, not yet requiring it via Composer:
+                                <div><pre class="bigger"><code>composer require twig/twig ^3.7</code></pre></div>
+                            </li>
+                            <li>
+                                Existing project, already requiring it via Composer:
+                                <div><pre class="bigger"><code>composer install</code></pre></div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Using Twig into your project</h2>
+
+                <ol>
+                    <li>
+                        Instead of manually including each class that ships with Twig, just include Composer's general autoloader.
+                        <pre class="bigger"><code class="hljs php">// Require composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';</code></pre>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        <em>Bootstrap</em> Twig, pointing it to the <code>templates/</code> folder
+                        <pre class="bigger"><code class="hljs php">$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
+$twig = new \Twig\Environment($loader);</code></pre>
+                    </li>
+
+                    <li style="margin-top: 1em;">
+                        Load your template and render it <em>(see next slide)</em>
+                    </li>
+                </ol>
+
+
+            </section>
+
+            <section>
+                <h2>Your first Twig Template</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        The syntax of our <code>.tpl</code> file
+                        <pre class="bigger"><code class="hljs twig">&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;{{ title }}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  Hi there {{ user }}, the weather today is {{ weather }}.
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        The PHP code
+                        <pre class="bigger"><code class="hljs php">// Assuming we've already included and bootstrapped Twig
+
+$tpl = $twig->load('main.twig');
+echo $tpl->render([
+	'title' => $title,
+	'user' => $userName,
+	'weather' => $weatherToday
+]);</code></pre>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>URL design &amp; Routing</h2>
+                <ul style="width: 100%;font-size: 85%;">
+                    <li>
+                        Clean URLS
+                        <ul>
+                            <li>
+                                What? Having clear, concise and understandable URLs like <code>http://example.org/search/lolcats</code>
+                            </li>
+                            <li>
+                                Why? SEO and usability
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        URL design
+                        <ul>
+                            <li>
+                                Naming conventions
+                                <ul>
+                                    <li>Verbs are bad, nouns are good</li>
+                                    <li>You decide: use plurals <strong>everywhere</strong> or singulars <strong>everywhere</strong></li>
+                                    <li>Respect the Hierarchy</li>
+                                </ul>
+                            </li>
+                            <li>
+                                Be consistent and make short URLs
+                            </li>
+                            <li style="margin-top: 0.7em">
+                                Examples
+                                <ul>
+                                    <li><ins><code>/products</code></ins></li>
+                                    <li><del><code>/product/1234</code></del> &rarr; <ins><code>/products/1234</code></ins></li>
+                                    <li><del><code>/photos/product/1234</code></del> &rarr; <ins><code>/products/1234/photos</code></ins></li>
+                                    <li><del><code>/photos/product/1234/5678</code></del> &rarr; <ins><code>/products/1234/photos/5678</code></ins></li>
+                                    <li><del><code>/pages/85/contact</code></del> &rarr; <ins><code>/contact</code></ins></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Router</h2>
+                <ul style="width: 100%;font-size: 85%;">
+                    <li>
+                        Supporting Clean URLs
+                        <ol>
+                            <li>
+                                Make <strong>your webserver</strong> (Apache, nginx, &hellip;) redirect all requests to inexistent files/folders to <code>index.php</code>
+                            </li>
+                            <li style="margin-top: 1em;">
+                                Build <code>index.php</code> in such a way so that it loads the requested content based upon the URL
+                            </li>
+                        </ol>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        A router library like <code>bramus/router</code> will make this process easier
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Installation:
+                        <ul>
+                            <li>
+                                New project, not yet requiring it via Composer:
+                                <pre class="bigger"><code class="dontrun">composer require bramus/router ^1.6.1</code></pre>
+                            </li>
+                            <li>
+                                Existing project, already requiring it via Composer:
+                                <pre class="bigger"><code class="dontrun">composer install</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Router code example</h2>
+
+                <pre class="bigger"><code class="hljs php">&lt;?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+$router = new \Bramus\Router\Router();
+
+$router-&gt;get('/', function() {
+	echo 'index';
+});
+
+$router-&gt;get('/hello', function() {
+	echo 'hello';
+});
+
+$router-&gt;get('/hello/(\w+)', function($name) {
+	echo 'have a nice day ' . htmlentities($name);
+});
+
+$router->run();</code></pre>
+
+            </section>
+
 
         </section>
 
