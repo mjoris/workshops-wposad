@@ -1241,6 +1241,7 @@ if (password_verify($pass, $encrypted)) { &hellip; }</code></pre>
 
             <section>
                 <h2>06.7<br>What's more in PHP?</h2>
+                <footer><em>You don't have to know this for the test or the lab.</em></footer>
             </section>
 
             <section data-background="#fdfdfd">
@@ -1292,7 +1293,7 @@ if (password_verify($pass, $encrypted)) { &hellip; }</code></pre>
                             <li>Installed: <code>composer.json</code> will contain this package requirement</li>
                             <li>Installed: <code>composer.lock</code> = list of the exact versions installed + dependency hierarchy</li>
                             <li>Installed: <code>vendor</code> folder containing all installed libraries</li>
-                            <li>You don't put <code>vendor</code> on git (<code>.gitignore</code> end you don't edit vendor</li>
+                            <li>You don't put <code>vendor</code> on git (<code>.gitignore</code>) and you don't edit code in <code>vendor</code></li>
                         </ul>
                     </li>
                     <li>
@@ -1302,7 +1303,10 @@ if (password_verify($pass, $encrypted)) { &hellip; }</code></pre>
                     <li>
                         Run <code>composer install</code> if you only have <code>composer.json</code> and <code>composer.lock</code>
                         <ul>
-                            When running <code>composer install</code> it will look for <code>composer.lock</code>.<br />If not found, it will fall back to <code>composer.json</code>.
+                            <li>
+                                When running <code>composer install</code> it will look for <code>composer.lock</code>.<br />If not found, it will fall back to <code>composer.json</code>.
+                            </li>
+
                         </ul>
                     </li>
 
