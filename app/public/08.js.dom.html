@@ -810,6 +810,25 @@ document.getElementById('inp1').addEventListener('keypress', function(e) {
                 <footer><small>Don't use the <code>load</code> event: it is fired much later (when really <em>everything</em> has been loaded)</small></footer>
             </section>
             <section>
+                <h2>Defer</h2>
+                <ul>
+                    <li>
+                        The <code>defer</code> attribute guarantees the script is executed when the document has been parsed, just before <code>DOMContentLoaded</code> is fired:
+                        <pre class="bigger"><code class="language-html">&lt;html&gt;
+&lt;body&gt;
+  ...
+  &lt;span id="span1"&gt;&lt;/span&gt;
+  &lt;script defer src="js/pagescripts.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        <pre class="bigger"><code class="language-javascript">document.getElementById('span1').innerHTML = 'hello there';
+</code></pre>
+                    </li>
+                </ul>
+                <footer><code>defer</code> only works with external scripts!</footer>
+
+            </section>
+            <section>
                 <h2>Script Encapsulation</h2>
                 <ul>
                     <li>
