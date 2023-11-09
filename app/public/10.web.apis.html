@@ -668,7 +668,7 @@ if ($zip->open($zipFile, ZipArchive::CREATE) === true) {
                 <ul style="width: 100%;">
                     <li>
                         Let's tell the (Apache) webserver to handle all requests to
-                        <br><code>folder/subfolder/..............</code> by the script
+                        <br><code>folder/subfolder/..............</code> (if file/folder doesn't exist) by the script
                         <br><code>folder/subfolder/index.php</code>.
                         <br>How? By creating a file <code>folder/subfolder/.htaccess</code>
                     </li>
@@ -693,7 +693,7 @@ var_dump($_SERVER['REQUEST_URI']);</code></pre>
                 <ul style="width: 100%;font-size: 85%;">
                     <li>Let's call this class <code>WebApiHelper</code></li>
                 </ul>
-                <pre class="bigger"><code class="hljs php" style="max-height: 430px;">class WebApiHelper
+                <pre class="bigger"><code class="hljs php" style="max-height: 400px;">class WebApiHelper
 {
     private string $verb;      // e.g. 'GET', 'POST', 'PUT', ...
     private string $path;      // e.g. 'api/lecturers'
