@@ -72,7 +72,7 @@
                     </li>
                 </ul>
                 <pre class="bigger"><code class="hljs yml">  nodejs:
-    image: node:19
+    image: node:20
     ports:
       - "3000:3000"
       - "9229:9229"
@@ -84,7 +84,7 @@
     links:
       - mysqldb</code></pre>
                 <ul style="width: 100%;">
-                    <li></li>
+
                     <li>
                         <code>npm install && npm start</code> will both look for a file <code>package.json</code> in <code>app</code>
 
@@ -177,7 +177,7 @@ added 62 packages, and audited 95 packages in 3s
                         From the container:
                         <pre class="bigger"><code class="hljs bash">$ docker compose exec nodejs bash
 root@2ea4b87aba3a:/usr/src/app# node
-Welcome to Node.js v19.0.0.
+Welcome to Node.js v20.7.0.
 Type ".help" for more information.
 > let a = 5;
 undefined
@@ -190,7 +190,7 @@ hello</code></pre>
                     <li>
                         From your host's Terminal:
                         <pre class="bigger"><code class="hljs bash">$ docker compose exec nodejs node
-Welcome to Node.js v19.0.0.
+Welcome to Node.js v20.7.0.
 Type ".help" for more information.
 > let a = 5;
 undefined
@@ -212,7 +212,7 @@ const mysql = require('mysql2'); // this version works with MySQL 8 (caching_sha
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
-const port = v;
+const port = 9229;
 
 // used to read the request body req.*
 app.use(bodyParser.json());
