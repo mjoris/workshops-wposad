@@ -11,7 +11,7 @@ services:
     links:
       - mysqldb
   nodejs:
-    image: node:20
+    image: node:22
     ports:
       - "3000:3000"
       - "9229:9229"
@@ -23,7 +23,7 @@ services:
     links:
       - mysqldb
   mysqldb:
-    image: mysql:8.0
+    image: mysql:8.4
     restart: always
     ports:
      - "3307:3306"
