@@ -8,7 +8,7 @@ function chopStringEnd(string &$str, int $len, string $ending): void
 }
 
 // Our variables
-$origStr = 'Welkom in deze tweede workshop van Back-end Development!';
+$origStr = 'Welkom in deze tweede workshop van Web Programming on Servers and Devices!';
 $cutoffLength = 40;
 $endStr = '...';
 

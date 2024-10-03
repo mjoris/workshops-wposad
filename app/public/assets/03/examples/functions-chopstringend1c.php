@@ -10,7 +10,7 @@ function chopStringEnd(string $str, int $len, string|null $ending): string|bool
 }
 
 // Our variables
-$origStr = 'Welkom in deze tweede workshop van Back-end Development!';
+$origStr = 'Welkom in deze tweede workshop van Web Programming on Servers and Devices!';
 $cutoffLength = 1000;
 $endStr = '...';
 

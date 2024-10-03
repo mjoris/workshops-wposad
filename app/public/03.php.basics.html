@@ -212,7 +212,7 @@
                     <g class="today">
                         <line x1="529.457890702" y1="24" x2="529.457890702" y2="204" />
                         <text x="529.457890702" y="223.2">
-                            Today: 1 Oct 2024		</text>
+                            Today: 4 Oct 2024		</text>
                     </g>
                 </svg>
                 <div>
@@ -1600,7 +1600,7 @@ function chopStringEnd($str, $len, $ending)
 }
 
 // Our variables
-$origStr = 'Welkom in deze tweede workshop van Back-end Development!';
+$origStr = 'Welkom in deze tweede workshop van Web Programming on Servers and Devices!';
 $cutoffLength = 40;
 $endStr	= '...';
 
@@ -1627,7 +1627,7 @@ function chopStringEnd(string $str, int $len, ?string $ending) : string
 }
 
 // Our variables
-$origStr = 'Welkom in deze tweede workshop van Back-end Development!';
+$origStr = 'Welkom in deze tweede workshop van Web Programming on Servers and Devices!';
 $cutoffLength = '40'; // Oops... wrong type? Not really ... still flawlessly juggled
 $endStr	= '...';
 
@@ -1663,7 +1663,7 @@ function chopStringEnd(string $str, int $len, string|null $ending) : string|bool
 }
 
 // Our variables
-$origStr = 'Welkom in deze tweede workshop van Back-end Development!';
+$origStr = 'Welkom in deze tweede workshop van Web Programming on Servers and Devices!';
 $cutoffLength = 1000; // way too high
 $endStr	= '...';
 
@@ -1692,7 +1692,7 @@ function chopStringEnd(string $str, int $len = 30, string $ending = '---') : str
 }
 
 // Our variables
-$origStr = 'Welkom in deze tweede workshop van Back-end Development!';
+$origStr = 'Welkom in deze tweede workshop van Web Programming on Servers and Devices!';
 $cutoffLength = 40;
 $endStr = '...';
 
@@ -1755,7 +1755,7 @@ function chopStringEnd(string $str, int $len) : string
 }
 
 // Our variables
-$origStr = 'Welkom in deze tweede workshop van Back-end Development!';
+$origStr = 'Welkom in deze tweede workshop van Web Programming on Servers and Devices!';
 
 // Go!
 echo chopStringEnd($origStr, 40, '...');</code></pre>
@@ -1779,7 +1779,7 @@ function chopStringEnd(string $str, int $len, string $ending) : void
 }
 
 // Our variables
-$origStr = 'Welkom in deze tweede workshop van Back-end Development!';
+$origStr = 'Welkom in deze tweede workshop van Web Programming on Servers and Devices!';
 $cutoffLength = 40;
 $endStr	= '...';
 
@@ -1804,7 +1804,7 @@ function chopStringEnd(string &$str, int $len, string $ending) : void
 }
 
 // Our variables
-$origStr = 'Welkom in deze tweede workshop van Back-end Development!';
+$origStr = 'Welkom in deze tweede workshop van Web Programming on Servers and Devices!';
 $cutoffLength = 40;
 $endStr	= '...';
 
@@ -1938,7 +1938,7 @@ echo ($myDateOfBirth-&gt;getTimestamp() . '&lt;br&gt;' . PHP_EOL); // method cal
 $w3cFormat = DateTime::W3C; // class constant
 echo ($myDateOfBirth-&gt;format($w3cFormat) . '&lt;br&gt;' . PHP_EOL);
 
-$date = DateTime::createFromFormat('j-M-Y', '01-Oct-2024'); // static method call
+$date = DateTime::createFromFormat('j-M-Y', '04-Oct-2024'); // static method call
 $duration = $date-&gt;diff($myDateOfBirth);
 echo ($duration-&gt;days); // accessing a property</code></pre>
 
