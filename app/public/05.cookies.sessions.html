@@ -584,6 +584,9 @@ session_destroy();</code></pre>
                         <a href="assets/05/examples/4.login/v0" id="login-strip" target="_blank"></a>
                     </li>
                 </ul>
+                <figure>
+                    <img src="assets/05/login-strip.png" class="noborder" width="100%" alt="" title="" />
+                </figure>
             </section>
 
             <section data-background="#fdfdfd">
@@ -595,16 +598,16 @@ session_destroy();</code></pre>
 
                             <div style="text-align: center">
                                 <figure>
-                                    <img src="assets/05/login-code.png" class="noborder" width="710" alt="" title="" />
+                                    <img src="assets/05/login-code-2.png" class="noborder" width="710" alt="" title="" />
                                 </figure>
 
-                                <p style="font-size: 75%; margin-top: -1em;">let's have a thourough look at the code: <code>/assets/05/examples/4.login/v1</code> <a href="assets/05/examples/4.login/v1" target="_blank">&rarr;</a></p>
+                                <p style="font-size: 75%; margin-top: -1em;">let's have a thorough look at the code: <code>/assets/05/examples/4.login/v1</code> <a href="assets/05/examples/4.login/v1" target="_blank">&rarr;</a></p>
+                                <p style="font-size: 75%;"></p>
                             </div>
 
                             <div class="tooltip">
                                 <div>
-                                    <p>The login page is very simple for this proof-of-concept: any login where the username equals the password is accepted</p>
-                                    <p>If the login validates, a <code>user</code> object <em>typically the result of a database query</em> is stored in the session, along with the <code>name</code></p>
+                                    <p>Login page: If the login validates, a <code>user</code> object <em>typically the result of a database query</em> is stored in the session, along with the <code>name</code></p>
                                     <p>The content pages use a simple <code>if</code> to display the <code>$_SESSION['user']['username']</code> or a request to log in</p>
                                     <p>The logout page simply destroys the session and redirects to the index</p>
                                 </div>

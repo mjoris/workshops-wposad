@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php
+
+// Our logic here ...
+
+?><!DOCTYPE html>
 <html>
 <head>
     <title>Testform</title>
@@ -7,7 +11,7 @@
 </head>
 <body>
 
-<form action="form_process.php" method="get">
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
 
     <fieldset>
 
@@ -61,6 +65,40 @@
     </fieldset>
 
 </form>
+
+<div id="debug">
+
+    <?php
+
+    /**
+     * Helper Functions
+     * ========================
+     */
+
+    /**
+     * Dumps a variable
+     * @param mixed $var
+     * @return void
+     */
+    function dump($var)
+    {
+        echo '<pre>';
+        var_dump($var);
+        echo '</pre>';
+    }
+
+
+    /**
+     * Main Program Code
+     * ========================
+     */
+
+    // dump $_GET
+    dump($_GET);
+
+    ?>
+
+</div>
 
 </body>
 </html>

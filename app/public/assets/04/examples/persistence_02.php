@@ -1,4 +1,12 @@
-<!DOCTYPE html>
+<?php
+
+
+// Get variables
+$name = isset($_GET['name']) ? (string)$_GET['name'] : '';
+$pass = isset($_GET['pass']) ? (string)$_GET['pass'] : '';
+$remark = isset($_GET['remark']) ? (string)$_GET['remark'] : '';
+
+?><!DOCTYPE html>
 <html>
 <head>
     <title>Testform</title>
@@ -7,7 +15,7 @@
 </head>
 <body>
 
-<form action="form_process.php" method="get">
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
 
     <fieldset>
 
@@ -16,10 +24,12 @@
         <dl class="clearfix">
 
             <dt><label for="name">Name</label></dt>
-            <dd class="text"><input type="text" id="name" name="name" value="" class="input-text"/></dd>
+            <dd class="text"><input type="text" id="name" name="name" value="<?php echo $name; ?>" class="input-text"/>
+            </dd>
 
             <dt><label for="pass">Password</label></dt>
-            <dd class="text"><input type="password" id="pass" name="pass" value="" class="input-text"/></dd>
+            <dd class="text"><input type="password" id="pass" name="pass" value="<?php echo $pass; ?>"
+                                    class="input-text"/></dd>
 
             <dt><label>Gender</label></dt>
             <dd>
@@ -50,7 +60,8 @@
             </dd>
 
             <dt><label for="remark">Remark</label></dt>
-            <dd class="text"><textarea name="remark" id="remark" rows="5" cols="40"></textarea></dd>
+            <dd class="text"><textarea name="remark" id="remark" rows="5" cols="40"><?php echo $remark; ?></textarea>
+            </dd>
 
             <dt class="full clearfix" id="lastrow">
                 <input type="submit" id="btnSubmit" name="btnSubmit" value="Send"/>
@@ -61,6 +72,40 @@
     </fieldset>
 
 </form>
+
+<div id="debug">
+
+    <?php
+
+    /**
+     * Helper Functions
+     * ========================
+     */
+
+    /**
+     * Dumps a variable
+     * @param mixed $var
+     * @return void
+     */
+    function dump($var)
+    {
+        echo '<pre>';
+        var_dump($var);
+        echo '</pre>';
+    }
+
+
+    /**
+     * Main Program Code
+     * ========================
+     */
+
+    // dump $_GET
+    dump($_GET);
+
+    ?>
+
+</div>
 
 </body>
 </html>
