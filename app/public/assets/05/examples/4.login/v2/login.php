@@ -1,118 +1,116 @@
 <?php
 
-	// start session (starts a new one, or continues the already started one)
-	session_start();
+// start session (starts a new one, or continues the already started one)
+session_start();
 
-	// already logged in!
-	if (isset($_SESSION['user'])) {
-		header('location: index.php');
-		exit();
-	}
+// already logged in!
+if (isset($_SESSION['user'])) {
+    header('location: index.php');
+    exit();
+}
 
-	// var to tell if we have a login error
-	$formErrors = array();
+// var to tell if we have a login error
+$formErrors = array();
 
-	// form submitted
-	if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
+// form submitted
+if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
 
-		// extract sent in username & password
-		$username = isset($_POST['username']) ? trim($_POST['username']) : '';
-		$password = isset($_POST['password']) ? trim($_POST['password']) : '';
+    // extract sent in username & password
+    $username = isset($_POST['username']) ? trim($_POST['username']) : '';
+    $password = isset($_POST['password']) ? trim($_POST['password']) : '';
 
-		// username & password are valid
-		// @note: this will most likely be the result of a query
-		if (($username != '') && ($username === $password)) {
+    // username & password are valid
+    // @note: this will most likely be the result of a query
+    if (($username != '') && ($username === $password)) {
 
-			// only store user id (usually returned from database) in session
-			$_SESSION['user_id'] = 25;
+        // only store user id (usually returned from database) in session
+        $_SESSION['user_id'] = 25;
 
-			// redirect to index
-			header('location: index.php');
-			exit();
+        // redirect to index
+        header('location: index.php');
+        exit();
 
-		}
+    } // username & password are not valid
+    else {
+        $formErrors[] = 'Invalid login credentials';
+    }
 
-		// username & password are not valid
-		else {
-			$formErrors[] = 'Invalid login credentials';
-		}
-
-	}
+}
 
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>My login protected site</title>
+    <title>My login protected site</title>
 
-	<meta charset="utf-8" />
+    <meta charset="utf-8"/>
 
-	<style>
-		.note {
-			background: #FFFF99;
-		}
+    <style>
+        .note {
+            background: #FFFF99;
+        }
 
-		.error {
-			background: #FF9999;
-		}
-	</style>
+        .error {
+            background: #FF9999;
+        }
+    </style>
 
-	<script>
-		window.addEventListener('load', function(e) {
+    <script>
+        window.addEventListener('load', function (e) {
 
-			document.getElementsByTagName('input')[0].focus();
+            document.getElementsByTagName('input')[0].focus();
 
-			document.forms[0].addEventListener('submit', function(e) {
+            document.forms[0].addEventListener('submit', function (e) {
 
-				e.preventDefault();
-				e.stopPropagation();
+                e.preventDefault();
+                e.stopPropagation();
 
-				var formValid = (document.getElementById('username').value != '') && (document.getElementById('password').value != '');
+                var formValid = (document.getElementById('username').value != '') && (document.getElementById('password').value != '');
 
-				if (!formValid) {
-					alert('Please enter your login credentials');
-					document.getElementsByTagName('input')[0].focus();
-				} else {
-					document.forms[0].submit();
-				}
+                if (!formValid) {
+                    alert('Please enter your login credentials');
+                    document.getElementsByTagName('input')[0].focus();
+                } else {
+                    document.forms[0].submit();
+                }
 
-			});
+            });
 
-		});
-	</script>
+        });
+    </script>
 
 </head>
 <body>
 
-	<h1>My login protected site</h1>
+<h1>My login protected site</h1>
 
-	<?php
+<?php
 
-		if (sizeof($formErrors) > 0) {
-			echo '<p>Error while logging in:</p>';
-			echo '<ul>' . PHP_EOL;
-			foreach ($formErrors as $error) {
-				echo '<li>' . $error . '</li>';
-			}
-			echo '</ul>' . PHP_EOL;
-		}
+if (sizeof($formErrors) > 0) {
+    echo '<p>Error while logging in:</p>';
+    echo '<ul>' . PHP_EOL;
+    foreach ($formErrors as $error) {
+        echo '<li>' . $error . '</li>';
+    }
+    echo '</ul>' . PHP_EOL;
+}
 
-	?>
+?>
 
-	<form action="login.php" method="post">
-		<fieldset>
-			<legend>Please log in</legend>
-			<dl>
-				<dt><label for="username">Username</label></dt>
-				<dd><input type="text" name="username" id="username" value="" /></dd>
-				<dt><label for="password">Password</label></dt>
-				<dd><input type="password" name="password" id="password" value="" /></dd>
-			</dl>
-			<input type="hidden" name="moduleAction" id="moduleAction" value="login" />
-			<input type="submit" name="btnSubmit" value="Log in &gt;" />
-		</fieldset>
-	</form>
+<form action="login.php" method="post">
+    <fieldset>
+        <legend>Please log in</legend>
+        <dl>
+            <dt><label for="username">Username</label></dt>
+            <dd><input type="text" name="username" id="username" value=""/></dd>
+            <dt><label for="password">Password</label></dt>
+            <dd><input type="password" name="password" id="password" value=""/></dd>
+        </dl>
+        <input type="hidden" name="moduleAction" id="moduleAction" value="login"/>
+        <input type="submit" name="btnSubmit" value="Log in &gt;"/>
+    </fieldset>
+</form>
 
-	<p class="note">Use the same username and password to log in. Any username and password can be used.</p>
+<p class="note">Use the same username and password to log in. Any username and password can be used.</p>
 
 </body>
 </html>

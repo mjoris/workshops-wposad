@@ -1,64 +1,65 @@
 <?php
 
-	// extract style & toppings from post
-	$style = (string) isset($_GET['style']) ? $_GET['style'] : '';
-	$toppings = (array) isset($_POST['toppings']) ? $_POST['toppings'] : array();
+// extract style & toppings from post
+$style = (string)isset($_GET['style']) ? $_GET['style'] : '';
+$toppings = (array)isset($_POST['toppings']) ? $_POST['toppings'] : array();
 
-	// @TODO: insert PHP formchecking here!
-		// style not empty and within range?
-		// toppings not empty and within range?
+// @TODO: insert PHP formchecking here!
+// style not empty and within range?
+// toppings not empty and within range?
 
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>PizzaPalace</title>
+    <title>PizzaPalace</title>
 
-	<meta charset="utf-8" />
+    <meta charset="utf-8"/>
 
-	<script>
-		window.addEventListener('load', function(e) {
+    <script>
+        window.addEventListener('load', function (e) {
 
-			document.getElementsByTagName('input')[0].focus();
+            document.getElementsByTagName('input')[0].focus();
 
-			document.forms[0].addEventListener('submit', function(e) {
+            document.forms[0].addEventListener('submit', function (e) {
 
-				e.preventDefault();
-				e.stopPropagation();
+                e.preventDefault();
+                e.stopPropagation();
 
-				var formValid = (document.getElementById('name').value != '') && (document.getElementById('address').value != '');
+                var formValid = (document.getElementById('name').value != '') && (document.getElementById('address').value != '');
 
-				if (!formValid) {
-					alert('Please enter your information');
-					document.getElementsByTagName('input')[0].focus();
-				} else {
-					document.forms[0].submit();
-				}
+                if (!formValid) {
+                    alert('Please enter your information');
+                    document.getElementsByTagName('input')[0].focus();
+                } else {
+                    document.forms[0].submit();
+                }
 
-			});
+            });
 
-		});
-	</script>
+        });
+    </script>
 
 </head>
 <body>
 
-	<h1>PizzaPalace (3/4)</h1>
+<h1>PizzaPalace (3/4)</h1>
 
-	<p>You're about to order a <?php echo htmlentities($style); ?> with <?php echo implode(', ', $toppings); ?>.</p>
-	<p>Please fill in the form below to confirm and place your order</p>
+<p>You're about to order a <?php echo htmlentities($style); ?> with <?php echo implode(', ', $toppings); ?>.</p>
+<p>Please fill in the form below to confirm and place your order</p>
 
-	<form action="thanks.php?style=<?php echo urlencode($style); ?>&amp;toppings=<?php echo urlencode(implode(', ', $toppings)); ?>" method="post">
-		<fieldset>
-			<legend>Your information</legend>
-			<dl>
-				<dt><label for="name">Name</label></dt>
-				<dd><input type="text" name="name" id="name" value="" /></dd>
-				<dt><label for="address">Address</label></dt>
-				<dd><input type="text" name="address" id="address" value="" /></dd>
-			</dl>
-			<label><input type="submit" name="btnSubmit" value="Place order &gt;" /></label>
-		</fieldset>
-	</form>
+<form action="thanks.php?style=<?php echo urlencode($style); ?>&amp;toppings=<?php echo urlencode(implode(', ', $toppings)); ?>"
+      method="post">
+    <fieldset>
+        <legend>Your information</legend>
+        <dl>
+            <dt><label for="name">Name</label></dt>
+            <dd><input type="text" name="name" id="name" value=""/></dd>
+            <dt><label for="address">Address</label></dt>
+            <dd><input type="text" name="address" id="address" value=""/></dd>
+        </dl>
+        <label><input type="submit" name="btnSubmit" value="Place order &gt;"/></label>
+    </fieldset>
+</form>
 
 </body>
 </html>
