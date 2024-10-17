@@ -158,14 +158,12 @@
 
                         <pre class="bigger"><code class="hljs php">&lt;?php
 
-    define('DB_HOST', 'mysqldb'); // specify an IP address, localhost or a computer name here
-    define('DB_USER', 'root');
-    define('DB_PASS', 'Azerty123');
+define('DB_HOST', 'mysqldb'); // specify an IP address, localhost or a computer name here
+define('DB_USER', 'root');
+define('DB_PASS', 'Azerty123');
 
-    define('DB_NAME_FF', 'fotofactory');
-    define('DB_NAME_STATUS', 'status');
-
-//EOF</code></pre>
+define('DB_NAME_FF', 'fotofactory');
+define('DB_NAME_STATUS', 'status');</code></pre>
                     </li>
                     <li style="margin-top: 1em;">
                         The config is used throughout the next code examples
@@ -191,13 +189,11 @@
                 </ul>
                 <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/01.php">&lt;?php
 
-    require_once 'config.php';
+require_once 'config.php';
 
-    $db = new PDO('mysql:host=' . DB_HOST .';dbname=' . DB_NAME_FF . ';charset=utf8mb4', DB_USER, DB_PASS);
+$db = new PDO('mysql:host=' . DB_HOST .';dbname=' . DB_NAME_FF . ';charset=utf8mb4', DB_USER, DB_PASS);
 
-    echo 'Connected to the database';
-
-//EOF</code></pre></div>
+echo 'Connected to the database';</code></pre></div>
                 <footer><em>(More on that charset later)</em></footer>
             </section>
 
@@ -230,15 +226,15 @@
 
 							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/02.php">&lt;?php
 
-    // Include config
-    require_once 'config.php';
+// Include config
+require_once 'config.php';
 
-    // Make Connection
-    $db = new PDO('mysql:host=' . DB_HOST .';dbname=does_not_exist;charset=utf8mb4', DB_USER, DB_PASS);
+// Make Connection
+$db = new PDO('mysql:host=' . DB_HOST .';dbname=does_not_exist;charset=utf8mb4', DB_USER, DB_PASS);
 
-    echo 'Connected to the database';
+echo 'Connected to the database';
 
-    // ... your query magic here
+// ... your query magic here
 </code></pre>
 
 
@@ -296,20 +292,18 @@
 
 									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/02c.php">&lt;?php
 
-    function showDbError(string $type) : void {
-        header('Location: error.php?type=db&amp;detail=' . $type);
-        exit();
-    }
+function showDbError(string $type) : void {
+    header('Location: error.php?type=db&amp;detail=' . $type);
+    exit();
+}
 
-    require_once 'config.php';
+require_once 'config.php';
 
-    try {
-        $db = new PDO('mysql:host=' . DB_HOST .';dbname=does_not_exist;charset=utf8mb4', DB_USER, DB_PASS);
-    } catch (PDOException $e) {
-        showDbError('connect');
-    }
-
-//EOF</code></pre>
+try {
+    $db = new PDO('mysql:host=' . DB_HOST .';dbname=does_not_exist;charset=utf8mb4', DB_USER, DB_PASS);
+} catch (PDOException $e) {
+    showDbError('connect');
+}</code></pre>
 
                         </div>
 
@@ -482,13 +476,13 @@ $stmt = $db->exec('DELETE FROM inexistent_table WHERE user_id = 10');</code></pr
 
 &hellip;
 
-    // Get ID from URL
-    $id = isset($_GET['id']) ? $_GET['id'] : 0;
+// Get ID from URL
+$id = isset($_GET['id']) ? $_GET['id'] : 0;
 
-    // Get collection from database
-    $stmt = $db->query('SELECT * FROM collections WHERE id = ' . $id);
+// Get collection from database
+$stmt = $db->query('SELECT * FROM collections WHERE id = ' . $id);
 
-    // Handle result
+// Handle result
 
 &hellip;
 </code></pre>
