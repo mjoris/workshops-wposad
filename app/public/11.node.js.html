@@ -72,7 +72,7 @@
                     </li>
                 </ul>
                 <pre class="bigger"><code class="hljs yml">  nodejs:
-    image: node:20
+    image: node:22
     ports:
       - "3000:3000"
       - "9229:9229"
@@ -81,7 +81,7 @@
     volumes:
       - "./app/public/assets/11/app:/usr/src/app"
       - "/usr/src/app/node_modules"
-    links:
+    depends_on:
       - mysqldb</code></pre>
                 <ul style="width: 100%;">
 
@@ -105,7 +105,7 @@
     "start": "nodemon -L index.js"
   },
   "dependencies": {
-    "nodemon": "^2.0"
+    "nodemon": "^3.1"
   }
 }</code></pre>
                         <ul>
@@ -177,7 +177,7 @@ added 62 packages, and audited 95 packages in 3s
                         From the container:
                         <pre class="bigger"><code class="hljs bash">$ docker compose exec nodejs bash
 root@2ea4b87aba3a:/usr/src/app# node
-Welcome to Node.js v20.7.0.
+Welcome to Node.js v22.9.0.
 Type ".help" for more information.
 > let a = 5;
 undefined
@@ -190,7 +190,7 @@ hello</code></pre>
                     <li>
                         From your host's Terminal:
                         <pre class="bigger"><code class="hljs bash">$ docker compose exec nodejs node
-Welcome to Node.js v20.7.0.
+Welcome to Node.js v22.9.0.
 Type ".help" for more information.
 > let a = 5;
 undefined
